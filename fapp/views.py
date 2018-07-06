@@ -21,7 +21,7 @@ def register(request):
 
 def index(request):
     if not request.user.is_authenticated:
-        return redirect(request, 'login.html')
+        return redirect('login')
     return render(request, 'budgets.html')
 
 def budget(request):
