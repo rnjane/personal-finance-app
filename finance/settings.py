@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'finance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'euhuydso',
+        'HOST': 'packy.db.elephantsql.com',
+        'USER': 'euhuydso',
+        'PASSWORD': 'g4kjSNr_8MgODOz6WwbI_JYeCIi863XF',
+        'PORT': '5432'
     }
 }
 

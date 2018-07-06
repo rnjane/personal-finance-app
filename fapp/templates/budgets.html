@@ -10,14 +10,86 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 </head>
-
 <body>
+    <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Budget</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div id="successfail"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12" id="message">
+                                <div class="form-group">
+                                    <label for="from-name">Name</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="text" name="name" required="" placeholder="Budget Name" id="from-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="from-amount">Amount</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-envelope-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="number" name="amount" required="" placeholder="Budget Amount" id="from-amount">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="reset">
+                                                <i class="fa fa-undo"></i> Reset</button>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="submit">Submit
+                                                <i class="fa fa-chevron-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="d-flex d-md-none">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container"><a class="navbar-brand logo" href="{% url 'index' %}">F-App</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                id="navbarNav">
+        <div class="container">
+            <a class="navbar-brand logo" href="{% url 'index' %}">F-App</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">LogOut</a></li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#newbudget" style="background-color:rgb(34,139,34);">New Budget</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="{% url 'logout' %}">LogOut</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,40 +104,53 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a></div>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                        </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;<a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
@@ -75,8 +160,22 @@
     </main>
     <footer class="page-footer">
         <div class="container">
-            <div class="links"><a href="#">About Us</a><a href="#">Contact Us</a><a href="#"></a></div>
-            <div class="social-icons"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a></div>
+            <div class="links">
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+                <a href="#"></a>
+            </div>
+            <div class="social-icons">
+                <a href="#">
+                    <i class="icon ion-social-facebook"></i>
+                </a>
+                <a href="#">
+                    <i class="icon ion-social-instagram-outline"></i>
+                </a>
+                <a href="#">
+                    <i class="icon ion-social-twitter"></i>
+                </a>
+            </div>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
