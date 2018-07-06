@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, NewBudgetForm
 from django.http import HttpResponseRedirect
+from .models import Budget
 
 def register(request):
     if request.method == 'POST':
@@ -22,7 +23,8 @@ def register(request):
 def index(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    return render(request, 'budgets.html')
+    budgets = Budget.objects.filter(user=request.user)
+    return render(request, 'budgets.html', {'budgets': budgets})
 
 def create_budget(request):
     if not request.user.is_authenticated:

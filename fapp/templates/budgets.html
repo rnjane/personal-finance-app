@@ -101,64 +101,24 @@
                     <h2>My Budgets</h2>
                 </div>
                 <div class="row">
+                    {% if budgets%}
+                    {% for budget in budgets %}
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
+                            <h3>{{ budget.name }}</h3>
+                            <h4>{{ budget.amount }}</h4>
                             <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
                             <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
-                            <div class="tags"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
-                            <div class="tags"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
-                            <div class="tags"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <h3>Lorem Ipsum</h3>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
-                            <div class="tags"></div>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </section>
     </main>
-    <footer class="page-footer">
+    <footer class="page-footer" style="position: absolute;width: 100%;bottom: 0;">
         <div class="container">
             <div class="links">
                 <a href="#">About Us</a>
