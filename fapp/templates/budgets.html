@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 </head>
+
 <body>
     <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
         <div class="modal-dialog modal-lg" role="document">
@@ -75,6 +76,54 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Budget</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'create_budget' %}" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" id="amount" readonly type="hidden">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="namount">
+                        </div>                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5>Are you sure to remove this budget?</h5>
+                    </div>
+                    <input class="form-control" id="amount" readonly type="hidden" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <a class="btn btn-primary" href="#" id="removelink">Remove</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
         <div class="container">
             <a class="navbar-brand logo" href="{% url 'index' %}">F-App</a>
@@ -101,19 +150,17 @@
                     <h2>My Budgets</h2>
                 </div>
                 <div class="row">
-                    {% if budgets%}
-                    {% for budget in budgets %}
+                    {% if budgets%} {% for budget in budgets %}
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
                             <h3>{{ budget.name }}</h3>
                             <h4>{{ budget.amount }}</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#">Delete</a>
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#editbudget" data-item="{{ budget.name }}">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
+                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#deletebudget" data-item="{{ budget.id }}">Delete</a>
                             <div class="tags"></div>
                         </div>
                     </div>
-                    {% endfor %}
-                    {% endif %}
+                    {% endfor %} {% endif %}
                 </div>
             </div>
         </section>
@@ -141,6 +188,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="{% static '/js/script.min.js' %}"></script>
-</body>
 
+    <script>
+		$('#deletebudget').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var budget = button.data('item')
+			var modal = $(this)
+			modal.find('.modal-title').text('Remove Budget ' + budget)
+            var dellink = budget + "/delete-budget"
+            $("#removelink").attr("href", dellink)
+		})
+    </script>
+    <script>
+		$('#editbudget').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var budget = button.data('item')
+			var modal = $(this)
+			modal.find('.modal-title').text('Edit Budget ' + budget)
+			modal.find('.modal-body input').val(budget)
+		})
+	</script>
+</body>
 </html>

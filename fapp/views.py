@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegisterForm, NewBudgetForm
-from django.http import HttpResponseRedirect
+from .forms import RegisterForm, NewBudgetForm, EditBudgetForm, DeleteBudgetForm
 from .models import Budget
 
 def register(request):
@@ -14,8 +13,6 @@ def register(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('index')
-        else:
-            print(form.errors)
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -28,7 +25,7 @@ def index(request):
 
 def create_budget(request):
     if not request.user.is_authenticated:
-        return render(request, 'login.html')
+        return redirect('login')
     else:
         form = NewBudgetForm(request.POST or None)
         if form.is_valid():
@@ -37,8 +34,21 @@ def create_budget(request):
             budget.name = form.cleaned_data['name']
             budget.amount = form.cleaned_data['amount']
             budget.save()
-            return render(request, 'budget-page.html', {'budget': budget})
+            return redirect('index')
         print(form.errors)
 
 def budget(request):
     return render(request, 'budget-page.html')
+
+def edit_budget(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+def delete_budget(request, budget_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        budget = Budget.objects.get(pk=budget_id)
+        budget.delete()
+        budgets = Budget.objects.filter(user=request.user)
+        return redirect('index')
