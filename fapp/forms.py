@@ -20,11 +20,8 @@ class NewBudgetForm(forms.ModelForm):
 
 class EditBudgetForm(forms.ModelForm):
     amount = forms.DecimalField(max_digits=20, decimal_places=2)
-    newamount = forms.DecimalField(max_digits=20, decimal_places=2)
-
-class DeleteBudgetForm(forms.ModelForm):
     name = forms.CharField(label='Budget Name', max_length=30)
 
     class Meta:
         model = Budget
-        fields = ['name']
+        fields = ['name', 'amount']

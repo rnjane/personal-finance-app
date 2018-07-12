@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^budget-detail/$', views.budget, name='budget'),
     url(r'^create-budget/$', views.create_budget, name='create_budget'),
-    url(r'^edit-budget/$', views.edit_budget, name='edit_budget'),
+    url(r'^(?P<budget_id>[0-9]+)/edit-budget/$', views.edit_budget, name='edit_budget'),
     url(r'^(?P<budget_id>[0-9]+)/delete-budget/$', views.delete_budget, name='delete_budget'),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegisterForm, NewBudgetForm, EditBudgetForm, DeleteBudgetForm
+from .forms import RegisterForm, NewBudgetForm, EditBudgetForm
 from .models import Budget
 
 def register(request):
@@ -40,9 +40,17 @@ def create_budget(request):
 def budget(request):
     return render(request, 'budget-page.html')
 
-def edit_budget(request):
+def edit_budget(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
+    else:
+        form = EditBudgetForm(request.POST)
+        if form.is_valid():
+            budget = Budget.objects.get(pk=budget_id)
+            budget.name = form.cleaned_data['name']
+            budget.amount = form.cleaned_data['amount']
+            budget.save()
+            return redirect('index')
 
 def delete_budget(request, budget_id):
     if not request.user.is_authenticated:
