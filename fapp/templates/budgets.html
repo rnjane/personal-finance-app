@@ -159,13 +159,13 @@
                     {% if budgets%} {% for budget in budgets %}
                     <div class="col-md-6 col-lg-4">
                         <div class="project-card-no-image">
-                            <h3>{{ budget.name }}</h3>
+                            <a href="{% url 'budget' budget.id %}"><h3>{{ budget.name }}</h3></a>
                             <h4>{{ budget.amount }}</h4>
                             <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
                             <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#deletebudget" data-item="{{ budget.id }}">Delete</a>
                             <div class="tags"></div>
                         </div>
-                    </div>
+                    </div>               
                     {% endfor %} {% endif %}
                 </div>
             </div>
