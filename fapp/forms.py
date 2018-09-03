@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Budget, MiniBudget
+from .models import BudgetModel, MiniBudgetModel
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
@@ -15,7 +15,7 @@ class NewBudgetForm(forms.ModelForm):
     amount = forms.DecimalField(max_digits=20, decimal_places=2)
 
     class Meta:
-        model = Budget
+        model = BudgetModel
         fields = ['name', 'amount']
 
 class EditBudgetForm(forms.ModelForm):
@@ -23,7 +23,7 @@ class EditBudgetForm(forms.ModelForm):
     name = forms.CharField(label='Budget Name', max_length=30)
 
     class Meta:
-        model = Budget
+        model = BudgetModel
         fields = ['name', 'amount']
 
 class NewMiniBudgetForm(forms.ModelForm):
@@ -31,7 +31,7 @@ class NewMiniBudgetForm(forms.ModelForm):
     amount = forms.DecimalField(max_digits=20, decimal_places=2)
 
     class Meta:
-        model = MiniBudget
+        model = MiniBudgetModel
         fields = ['name', 'amount']
 
 class EditMiniBudgetForm(forms.ModelForm):
@@ -39,5 +39,5 @@ class EditMiniBudgetForm(forms.ModelForm):
     name = forms.CharField(label='Budget Name', max_length=30)
 
     class Meta:
-        model = MiniBudget
+        model = MiniBudgetModel
         fields = ['name', 'amount']

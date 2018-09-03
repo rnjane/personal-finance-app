@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'fapp',
 ]
 
@@ -77,10 +78,10 @@ WSGI_APPLICATION = 'finance.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'euhuydso',
-        'HOST': 'packy.db.elephantsql.com',
-        'USER': 'euhuydso',
-        'PASSWORD': 'g4kjSNr_8MgODOz6WwbI_JYeCIi863XF',
+        'NAME': 'financeapp',
+        'HOST': 'localhost',
+        'USER': 'robertnjane',
+        'PASSWORD': 'roba1234',
         'PORT': '5432'
     }
 }

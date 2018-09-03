@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, NewBudgetForm, EditBudgetForm, NewMiniBudgetForm, EditMiniBudgetForm
-from .models import Budget, MiniBudget
+from .models import BudgetModel, MiniBudgetModel
+from .budgets import Budget
 
 def register(request):
     if request.method == 'POST':
@@ -20,7 +21,7 @@ def register(request):
 def index(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    budgets = Budget.objects.filter(user=request.user)
+    budgets = Budget.index(request)
     return render(request, 'budgets.html', {'budgets': budgets})
 
 def create_budget(request):
@@ -29,11 +30,9 @@ def create_budget(request):
     else:
         form = NewBudgetForm(request.POST or None)
         if form.is_valid():
-            budget = form.save(commit=False)
-            budget.user_id = request.user.id
-            budget.name = form.cleaned_data['name']
-            budget.amount = form.cleaned_data['amount']
-            budget.save()
+            name = form.cleaned_data['name']
+            amount = form.cleaned_data['amount']
+            Budget.create_budget(request, name, amount)
             return redirect('index')
 
 def create_mini_budget(request, budget_id):

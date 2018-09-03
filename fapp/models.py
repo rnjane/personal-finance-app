@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Budget(models.Model):
+class BudgetModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     amount = models.FloatField()
@@ -10,8 +10,8 @@ class Budget(models.Model):
         return self.name
 
 
-class MiniBudget(models.Model):
-    budget = models.ForeignKey(Budget, on_delete=models.CASCADE)
+class MiniBudgetModel(models.Model):
+    budget = models.ForeignKey(BudgetModel, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     amount = models.FloatField()
 
