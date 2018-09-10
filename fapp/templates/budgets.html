@@ -18,13 +18,134 @@
 </head>
 
 <body class="h-100">
+    <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Budget</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div id="successfail"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12" id="message">
+                                <div class="form-group">
+                                    <label for="from-name">Name</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="text" name="name" required="" placeholder="Budget Name" id="from-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="reset">
+                                                <i class="fa fa-undo"></i> Reset</button>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="submit">Submit
+                                                <i class="fa fa-chevron-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="d-flex d-md-none" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Budget</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST" id="editform">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control" id="id" readonly type="hidden">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Budget Name</label>
+                            <input class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                        <i class="fa fa-edit"></i>Close</button>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="submit">Edit
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5>Are you sure to remove this budget?</h5>
+                    </div>
+                    <input class="form-control" id="amount" readonly type="hidden" />
+                    <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                        <i class="fa fa-edit"></i>Close</button>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <!-- Main Sidebar -->
             <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
                 <div class="main-navbar">
                     <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-                        <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
+                        <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
                             <div class="d-table m-auto">
                                 <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="static/images/shards-dashboards-logo.svg"
                                     alt="Shards Dashboard">
@@ -120,7 +241,8 @@
                                             <span class="notification__category">Budgets</span>
                                             <p>Your budget utilization was
                                                 <span class="text-success text-semibold">28%</span> in the last week. Great
-                                                job!</p>
+                                                job!
+                                            </p>
                                         </div>
                                     </a>
                                     <a class="dropdown-item" href="#">
@@ -137,7 +259,7 @@
                                         </div>
                                     </a>
                                     <a class="dropdown-item notification__all text-center" href="#"> View all Notifications
-                                        </a>
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -146,12 +268,12 @@
                                     <span class="d-none d-md-inline-block">User Name</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
-                                    <a class="dropdown-item" href="add-new-post.html">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#newbudget">
                                         <i class="material-icons">note_add</i>New Budget</a>
                                     <a class="dropdown-item" href="user-profile-lite.html">
                                         <i class="material-icons">&#xE7FD;</i> Profile</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#">
+                                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
                                         <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                                 </div>
                             </li>
@@ -174,21 +296,23 @@
                     </div>
                     <!-- End Page Header -->
                     <div class="row">
+                        {% if budgets%} {% for budget in budgets %}
                         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                             <div class="card card-small card-post card-post--1">
                                 <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
                                     <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
                                     <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
+                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');"></a>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
+                                        <a class="text-fiord-blue" href="#">{{ budget.name }}</a>
                                     </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
+                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income Kshs.
+                                            {{ budget.total_income }}</span></p> <br />
+                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses Kshs.
+                                            {{ budget.total_expenses }}</span></p>
                                     <div class="progress-wrapper">
                                         <strong class="text-muted d-block mb-2">Remaining</strong>
                                         <div class="progress progress-sm">
@@ -199,499 +323,14 @@
                                     </div>
                                     <p>
                                         <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                            <button data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ budget.id }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
                                         </div>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                            <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
-                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
-                                    <div class="card-post__author d-flex">
-                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');">Written
-                                            by Anna Kunis</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">January</a>
-                                    </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            19,291</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
-                                        </div>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %} {% endif %}
                     </div>
                 </div>
                 <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
@@ -721,6 +360,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
     <script src="{% static 'scripts/extras.1.0.0.min.js' %}"></script>
     <script src="{% static 'scripts/shards-dashboards.1.0.0.min.js' %}"></script>
+    <script>
+            $('#deletebudget').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var budget = button.data('item')
+                var budget_id = button.data('id')
+                var modal = $(this)
+                modal.find('.modal-title').text('Remove Budget ' + budget)
+                var dellink = budget_id + "/delete-budget"
+                $("#removelink").attr("href", dellink)
+            })
+        </script>
+        <script>
+            $('#editbudget').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var name = button.data('item')
+                var budget_id = button.data('id')
+                var modal = $(this)
+                modal.find('.modal-title').text('Edit Budget ' + name)
+                modal.find('.modal-body #name').val(name)
+                var editlink = budget_id + "/edit-budget/"
+                $("#editform").attr("action", editlink)
+            })
+        </script>
 </body>
 
 </html>

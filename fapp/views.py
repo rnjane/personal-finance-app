@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegisterForm, NewBudgetForm, EditBudgetForm, NewMiniBudgetForm, EditMiniBudgetForm
-from .models import BudgetModel, MiniBudgetModel
+from .forms import RegisterForm, BudgetForm, IncomeForm, ExpenseForm, MiniExpenseForm
 from .budgets import Budget
 
 def register(request):
@@ -28,73 +27,70 @@ def create_budget(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        form = NewBudgetForm(request.POST or None)
+        form = BudgetForm(request.POST or None)
         if form.is_valid():
             name = form.cleaned_data['name']
-            amount = form.cleaned_data['amount']
-            Budget.create_budget(request, name, amount)
+            Budget.create_budget_controller(request, name)
             return redirect('index')
+        else:
+            return redirect('index', errors = form.errors)
 
-def create_mini_budget(request, budget_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        form = NewMiniBudgetForm(request.POST or None)
-        if form.is_valid():
-            budget = get_object_or_404(Budget, pk=budget_id)
-            mini_budget = form.save(commit=False)
-            mini_budget.budget = budget
-            mini_budget.name = form.cleaned_data['name']
-            mini_budget.amount = form.cleaned_data['amount']
-            mini_budget.save()
-            return redirect('budget', budget_id)
+# def create_mini_budget(request, budget_id):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     else:
+#         form = NewMiniBudgetForm(request.POST or None)
+#         if form.is_valid():
+#             budget = get_object_or_404(Budget, pk=budget_id)
+#             mini_budget = form.save(commit=False)
+#             mini_budget.budget = budget
+#             mini_budget.name = form.cleaned_data['name']
+#             mini_budget.amount = form.cleaned_data['amount']
+#             mini_budget.save()
+#             return redirect('budget', budget_id)
 
-def budget(request, budget_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        budget = get_object_or_404(Budget, pk=budget_id)
-        mini_budgets = MiniBudget.objects.filter(budget = budget_id)
-        return render(request, 'budget-page.html', {'mini_budgets': mini_budgets, 'budget': budget})
+# def budget(request, budget_id):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     else:
+#         budget = get_object_or_404(Budget, pk=budget_id)
+#         mini_budgets = MiniBudget.objects.filter(budget = budget_id)
+#         return render(request, 'budget-page.html', {'mini_budgets': mini_budgets, 'budget': budget})
 
 def edit_budget(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        form = EditBudgetForm(request.POST)
+        form = BudgetForm(request.POST)
         if form.is_valid():
-            budget = Budget.objects.get(pk=budget_id)
-            budget.name = form.cleaned_data['name']
-            budget.amount = form.cleaned_data['amount']
-            budget.save()
+            name = form.cleaned_data['name']
+            mid = budget_id
+            Budget.edit_budget_controller(request, mid, name)
             return redirect('index')
-
 
 def delete_budget(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        budget = Budget.objects.get(pk=budget_id)
-        budget.delete()
-        budgets = Budget.objects.filter(user=request.user)
+        Budget.delete_budget_controller(request, budget_id)
         return redirect('index')
 
-def edit_mini_budget(request, budget_id, mini_budget_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        form = EditMiniBudgetForm(request.POST)
-        if form.is_valid():
-            mini_budget = MiniBudget.objects.get(id=mini_budget_id)
-            mini_budget.name = form.cleaned_data['name']
-            mini_budget.amount = form.cleaned_data['amount']
-            mini_budget.save()
-            return redirect('budget', budget_id)
-
-def delete_mini_budget(request, budget_id, mini_budget_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        mini_budget = MiniBudget.objects.get(pk=mini_budget_id)
-        mini_budget.delete()
-        return redirect('budget', budget_id)
+# def edit_mini_budget(request, budget_id, mini_budget_id):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     else:
+#         form = EditMiniBudgetForm(request.POST)
+#         if form.is_valid():
+#             mini_budget = MiniBudget.objects.get(id=mini_budget_id)
+#             mini_budget.name = form.cleaned_data['name']
+#             mini_budget.amount = form.cleaned_data['amount']
+#             mini_budget.save()
+#             return redirect('budget', budget_id)
+#
+# def delete_mini_budget(request, budget_id, mini_budget_id):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     else:
+#         mini_budget = MiniBudget.objects.get(pk=mini_budget_id)
+#         mini_budget.delete()
+#         return redirect('budget', budget_id)
