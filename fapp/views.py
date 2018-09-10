@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegisterForm, NewBudgetForm, EditBudgetForm, NewMiniBudgetForm, EditMiniBudgetForm
-from .models import Budget, MiniBudget
+from .forms import RegisterForm, BudgetForm, IncomeForm, ExpenseForm, MiniExpenseForm
+from .budgets import Budget, IncomeController, ExpenseController, MiniExpenseController
+from .models import BudgetModel, ExpenseModel
+
+
+def is_authenticated(request):
+    if request.user.is_authenticated:
+        return True
+    else:
+        return False
 
 def register(request):
     if request.method == 'POST':
@@ -20,21 +28,38 @@ def register(request):
 def index(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    budgets = Budget.objects.filter(user=request.user)
+    budgets = Budget.index(request)
     return render(request, 'budgets.html', {'budgets': budgets})
 
 def create_budget(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        form = NewBudgetForm(request.POST or None)
+        form = BudgetForm(request.POST or None)
         if form.is_valid():
-            budget = form.save(commit=False)
-            budget.user_id = request.user.id
-            budget.name = form.cleaned_data['name']
-            budget.amount = form.cleaned_data['amount']
-            budget.save()
+            name = form.cleaned_data['name']
+            Budget.create_budget_controller(request, name)
             return redirect('index')
+        else:
+            return redirect('index', errors = form.errors)
+
+def edit_budget(request, budget_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        form = BudgetForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            mid = budget_id
+            Budget.edit_budget_controller(request, mid, name)
+            return redirect('index')
+
+def delete_budget(request, budget_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        Budget.delete_budget_controller(request, budget_id)
+        return redirect('index')
 
 def create_mini_budget(request, budget_id):
     if not request.user.is_authenticated:
@@ -50,52 +75,81 @@ def create_mini_budget(request, budget_id):
             mini_budget.save()
             return redirect('budget', budget_id)
 
-def budget(request, budget_id):
+def create_income(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        budget = get_object_or_404(Budget, pk=budget_id)
-        mini_budgets = MiniBudget.objects.filter(budget = budget_id)
-        return render(request, 'budget-page.html', {'mini_budgets': mini_budgets, 'budget': budget})
-
-def edit_budget(request, budget_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        form = EditBudgetForm(request.POST)
+        form = IncomeForm(request.POST or None)
         if form.is_valid():
-            budget = Budget.objects.get(pk=budget_id)
-            budget.name = form.cleaned_data['name']
-            budget.amount = form.cleaned_data['amount']
-            budget.save()
-            return redirect('index')
+            IncomeController.create_income(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+            return redirect('incomes')
 
-
-def delete_budget(request, budget_id):
+def view_all_incomes(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        budget = Budget.objects.get(pk=budget_id)
-        budget.delete()
-        budgets = Budget.objects.filter(user=request.user)
-        return redirect('index')
+        incomes = IncomeController.view_all_incomes(budget_id)
+        budget = get_object_or_404(BudgetModel, pk=budget_id)
+        return render(request, 'incomes.html', {'incomes': incomes, 'budget': budget})
 
-def edit_mini_budget(request, budget_id, mini_budget_id):
+def edit_income(request, budget_id, income_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        form = EditMiniBudgetForm(request.POST)
-        if form.is_valid():
-            mini_budget = MiniBudget.objects.get(id=mini_budget_id)
-            mini_budget.name = form.cleaned_data['name']
-            mini_budget.amount = form.cleaned_data['amount']
-            mini_budget.save()
-            return redirect('budget', budget_id)
+        form = IncomeForm(request.POST or None)
+        IncomeController.edit_income(budget_id, income_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
+        return redirect('incomes')
 
-def delete_mini_budget(request, budget_id, mini_budget_id):
+def delete_income(request, budget_id, income_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        mini_budget = MiniBudget.objects.get(pk=mini_budget_id)
-        mini_budget.delete()
-        return redirect('budget', budget_id)
+        IncomeController.delete_income(budget_id, income_id)
+        return redirect('incomes')
+
+def create_expense(request, budget_id):
+    if is_authenticated(request):
+        form = ExpenseForm(request.POST or None)
+        ExpenseController.create_expense(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('expenses')
+
+def view_all_expenses(request, budget_id):
+    if is_authenticated(request):
+        expenses = ExpenseController.view_all_expenses(budget_id)
+        budget = get_object_or_404(BudgetModel, pk=budget_id)
+        return render(request, 'expenses.html', {'expenses': expenses, 'budget': budget})
+
+def edit_expense(request, budget_id, expense_id):
+    if is_authenticated(request):
+        form = ExpenseForm(request.POST or None)
+        ExpenseController.edit_expense(budget_id, expense_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
+        return redirect('expenses')
+
+def delete_expense(request, budget_id, expense_id):
+    if is_authenticated(request):
+        ExpenseController.delete_expense(budget_id, expense_id)
+        return redirect('expenses')
+
+def create_mini_expense(request, expense_id):
+    if is_authenticated(request):
+        form = MiniExpenseForm(request.POST or None)
+        MiniExpenseController.create_mini_expense(expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('mini-expenses')
+
+def view_all_mini_expenses(request, expense_id):
+    if is_authenticated(request):
+        mini_expenses = MiniExpenseController.view_all_mini_expense(expense_id)
+        expense = get_object_or_404(ExpenseModel, pk=expense_id)
+        return render(request, 'mini-expenses.html', {'mini-expenses': mini_expenses, 'expense': expense})
+
+def edit_expense(request, expense_id, mini_expense_id):
+    if is_authenticated(request):
+        form = MiniExpenseForm(request.POST or None)
+        MiniExpenseController.edit_mini_expense(expense_id, mini_expense_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
+        return redirect('mini-expenses')
+
+def delete_expense(request, mini_expense_id):
+    if is_authenticated(request):
+        MiniExpenseController.delete_mini_expense(mini_expense_id)
+        return redirect('mini-expenses')
+

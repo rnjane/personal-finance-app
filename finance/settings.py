@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'fapp',
+    'djmoney'
 ]
 
 MIDDLEWARE = [
@@ -77,10 +79,10 @@ WSGI_APPLICATION = 'finance.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'euhuydso',
-        'HOST': 'packy.db.elephantsql.com',
-        'USER': 'euhuydso',
-        'PASSWORD': 'g4kjSNr_8MgODOz6WwbI_JYeCIi863XF',
+        'NAME': 'financeapp',
+        'HOST': 'localhost',
+        'USER': 'robertnjane',
+        'PASSWORD': 'roba1234',
         'PORT': '5432'
     }
 }
@@ -122,13 +124,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATIC_PATH = os.path.join(BASE_DIR,'staticfiles')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/static/',
+]
 
 LOGIN_REDIRECT_URL = 'index'
 
