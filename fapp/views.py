@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, BudgetForm, IncomeForm, ExpenseForm, MiniExpenseForm
 from .budgets import Budget
 
+# from finance.settings import BASE_DIR, STATIC_ROOT, STATIC_URL, STATICFILES_DIRS
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -49,13 +51,15 @@ def create_budget(request):
 #             mini_budget.save()
 #             return redirect('budget', budget_id)
 
-# def budget(request, budget_id):
-#     if not request.user.is_authenticated:
-#         return redirect('login')
-#     else:
-#         budget = get_object_or_404(Budget, pk=budget_id)
-#         mini_budgets = MiniBudget.objects.filter(budget = budget_id)
-#         return render(request, 'budget-page.html', {'mini_budgets': mini_budgets, 'budget': budget})
+def incomes_view(request, budget_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        # print('\n', BASE_DIR, '\n', STATIC_ROOT, '\n', STATIC_URL, '\n', STATICFILES_DIRS)
+        # budget = get_object_or_404(Budget, pk=budget_id)
+        # mini_budgets = MiniBudget.objects.filter(budget = budget_id)
+        # return render(request, 'budget-page.html', {'mini_budgets': mini_budgets, 'budget': budget})
+        return render(request, 'incomes.html')
 
 def edit_budget(request, budget_id):
     if not request.user.is_authenticated:

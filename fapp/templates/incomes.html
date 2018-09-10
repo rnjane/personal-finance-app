@@ -1,22 +1,28 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js h-100" lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F-APP - Budgets</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Shards Dashboard Lite - Free Bootstrap Admin Template – DesignRevision</title>
+    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="{% static 'styles/shards-dashboards.1.0.0.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/extras.1.0.0.min.css' %}">
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 
-<body>
+<body class="h-100">
     <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">New Budget</h4>
+                    <h4 class="modal-title">New Income</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -44,18 +50,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="from-amount">Amount</label>
-                                    <span class="required-input">*</span>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-envelope-o"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" type="number" name="amount" required="" placeholder="Budget Amount" id="from-amount">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="form-row">
                                         <div class="col">
                                             <button class="btn btn-primary btn-block" type="reset">
@@ -68,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="d-flex d-md-none">
+                                <hr class="d-flex d-md-none" />
                             </div>
                         </div>
                     </form>
@@ -80,7 +74,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Budget</h4>
+                    <h4 class="modal-title">Edit Income</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -92,16 +86,21 @@
                             <input class="form-control" id="id" readonly type="hidden">
                         </div>
                         <div class="form-group">
-                            <label for="name">Budget Name</label>
+                            <label for="name">Income Name</label>
                             <input class="form-control" id="name" name="name">
                         </div>
                         <div class="form-group">
-                            <label for="amount">Budget Amount</label>
-                            <input class="form-control" id="amount" name="amount">
-                        </div>                         
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
+                            <div class="form-row">
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                        <i class="fa fa-edit"></i>Close</button>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="submit">Edit
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -119,105 +118,259 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <h5>Are you sure to remove this budget?</h5>
+                        <h5>Are you sure to remove this income?</h5>
                     </div>
                     <input class="form-control" id="amount" readonly type="hidden" />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        <a class="btn btn-primary" href="#" id="removelink">Remove</a>
-                    </div>
+                    <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                        <i class="fa fa-edit"></i>Close</button>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container">
-            <a class="navbar-brand logo" href="{% url 'index' %}">F-App</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#newbudget" style="background-color:rgb(34,139,34);">New Budget</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="{% url 'logout' %}">LogOut</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <main class="page projets-page">
-        <section class="portfolio-block project-no-images" style="padding-top:50px;padding-bottom:50px;">
-            <div class="container">
-                <div class="heading">
-                    <h2>My Budgets</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Sidebar -->
+            <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+                <div class="main-navbar">
+                    <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+                        <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                            <div class="d-table m-auto">
+                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="static/images/shards-dashboards-logo.svg"
+                                    alt="Shards Dashboard">
+                                <span class="d-none d-md-inline ml-1">Manager App</span>
+                            </div>
+                        </a>
+                        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                            <i class="material-icons">&#xE5C4;</i>
+                        </a>
+                    </nav>
                 </div>
-                <div class="row">
-                    {% if budgets%} {% for budget in budgets %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <a href="{% url 'budget' budget.id %}"><h3>{{ budget.name }}</h3></a>
-                            <h4>{{ budget.amount }}</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#deletebudget" data-item="{{ budget.id }}">Delete</a>
-                            <div class="tags"></div>
+                <form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
+                    <div class="input-group input-group-seamless ml-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </div>
                         </div>
-                    </div>               
-                    {% endfor %} {% endif %}
+                        <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">                        </div>
+                </form>
+                <div class="nav-wrapper">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link " href="index.html">
+                                <i class="material-icons">dashboard</i>
+                                <span>Incomes Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="components-blog-posts.html">
+                                <i class="material-icons">dashboard</i>
+                                <span>Expenses Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="add-new-post.html">
+                                <i class="material-icons">attach_money</i>
+                                <span>Incomes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="form-components.html">
+                                <i class="material-icons">access_time</i>
+                                <span>Expenses</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </section>
-    </main>
-    <footer class="page-footer" style="width: 100%;bottom: 0;">
-        <div class="container">
-            <div class="links">
-                <a href="#">About Us</a>
-                <a href="#">Contact Us</a>
-                <a href="#"></a>
-            </div>
-            <div class="social-icons">
-                <a href="#">
-                    <i class="icon ion-social-facebook"></i>
-                </a>
-                <a href="#">
-                    <i class="icon ion-social-instagram-outline"></i>
-                </a>
-                <a href="#">
-                    <i class="icon ion-social-twitter"></i>
-                </a>
-            </div>
+            </aside>
+            <!-- End Main Sidebar -->
+            <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+                <div class="main-navbar sticky-top bg-white">
+                    <!-- Main Navbar -->
+                    <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
+                        <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+                            <div class="input-group input-group-seamless ml-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </div>
+                                <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">                                </div>
+                        </form>
+                        <ul class="navbar-nav border-left flex-row ">
+                            <li class="nav-item border-right dropdown notifications">
+                                <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <div class="nav-link-icon__wrapper">
+                                        <i class="material-icons">&#xE7F4;</i>
+                                        <span class="badge badge-pill badge-danger">2</span>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-small" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification__icon-wrapper">
+                                            <div class="notification__icon">
+                                                <i class="material-icons">&#xE6E1;</i>
+                                            </div>
+                                        </div>
+                                        <div class="notification__content">
+                                            <span class="notification__category">Incomes</span>
+                                            <p>Your Income utilization was
+                                                <span class="text-success text-semibold">28%</span> in the last week. Great
+                                                job!
+                                            </p>
+                                        </div>
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification__icon-wrapper">
+                                            <div class="notification__icon">
+                                                <i class="material-icons">&#xE8D1;</i>
+                                            </div>
+                                        </div>
+                                        <div class="notification__content">
+                                            <span class="notification__category">Time</span>
+                                            <p>Last week your met
+                                                <span class="text-danger text-semibold">20%</span> of your time goals. It
+                                                could have been worse!</p>
+                                        </div>
+                                    </a>
+                                    <a class="dropdown-item notification__all text-center" href="#"> View all Notifications
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img class="user-avatar rounded-circle mr-2" src="static/images/avatars/0.jpg" alt="User Avatar">
+                                    <span class="d-none d-md-inline-block">User Name</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-small">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#newbudget">
+                                        <i class="material-icons">note_add</i>New Income</a>
+                                    <a class="dropdown-item" href="user-profile-lite.html">
+                                        <i class="material-icons">&#xE7FD;</i> Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                        <i class="material-icons text-danger">&#xE879;</i>Logout </a>
+                                </div>
+                            </li>
+                        </ul>
+                        <nav class="nav">
+                            <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse"
+                                data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+                                <i class="material-icons">&#xE5D2;</i>
+                            </a>
+                        </nav>
+                    </nav>
+                </div>
+                <!-- / .main-navbar -->
+                <div class="main-content-container container-fluid px-4">
+                    <!-- Page Header -->
+                    <div class="page-header row no-gutters py-4">
+                        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                            <h3 class="page-title">Incomes</h3>
+                        </div>
+                    </div>
+                    <!-- End Page Header -->
+                    <div class="row">
+                        {% if budgets%} {% for budget in budgets %}
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                            <div class="card card-small card-post card-post--1">
+                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
+                                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
+                                    <div class="card-post__author d-flex">
+                                        <a href="https://google.com" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');"></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a class="text-fiord-blue" href="#">{{ budget.name }}</a>
+                                    </h5>
+                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income Kshs.
+                                            {{ budget.total_income }}</span></p> <br />
+                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses Kshs.
+                                            {{ budget.total_expenses }}</span></p>
+                                    <div class="progress-wrapper">
+                                        <strong class="text-muted d-block mb-2">Remaining</strong>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
+                                                <span class="progress-value">74%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <div>
+                                            <button data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ budget.id }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %} {% endif %}
+                    </div>
+                </div>
+                <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Blog</a>
+                        </li>
+                    </ul>
+                    <span class="copyright ml-auto my-auto mr-2">Copyright © 2018
+                        <a href="https://njanelabs.com" rel="nofollow">Njane Labs</a>
+                    </span>
+                </footer>
+            </main>
         </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static '/js/script.min.js' %}"></script>
-
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+    <script src="{% static 'scripts/extras.1.0.0.min.js' %}"></script>
+    <script src="{% static 'scripts/shards-dashboards.1.0.0.min.js' %}"></script>
     <script>
-		$('#deletebudget').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget)
-			var budget = button.data('item')
-			var modal = $(this)
-			modal.find('.modal-title').text('Remove Budget ' + budget)
-            var dellink = budget + "/delete-budget"
-            $("#removelink").attr("href", dellink)
-		})
-    </script>
-    <script>
-		$('#editbudget').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget)
-			var name = button.data('item')
-            var amount = button.data('amount')
-            var id = button.data('id')
-			var modal = $(this)
-			modal.find('.modal-title').text('Edit Budget ' + name)
-			modal.find('.modal-body #amount').val(amount)
-            modal.find('.modal-body #name').val(name)
-            var editlink = id + "/edit-budget/"
-            $("#editform").attr("action", editlink)
-		})
-	</script>
+            $('#deletebudget').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var budget = button.data('item')
+                var budget_id = button.data('id')
+                var modal = $(this)
+                modal.find('.modal-title').text('Remove Budget ' + budget)
+                var dellink = budget_id + "/delete-budget"
+                $("#removelink").attr("href", dellink)
+            })
+        </script>
+        <script>
+            $('#editbudget').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var name = button.data('item')
+                var budget_id = button.data('id')
+                var modal = $(this)
+                modal.find('.modal-title').text('Edit Budget ' + name)
+                modal.find('.modal-body #name').val(name)
+                var editlink = budget_id + "/edit-budget/"
+                $("#editform").attr("action", editlink)
+            })
+        </script>
 </body>
+
 </html>

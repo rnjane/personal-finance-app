@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import re_path
 from django.contrib.auth import views as auth_views
 from . import views, budgets
 
@@ -8,7 +9,8 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^$', views.index, name='index'),
     # url(r'^$', budgets.Budget.index, name='index'),
-    # url(r'^(?P<budget_id>[0-9]+)/budget-detail/$', views.budget, name='budget'),
+    # url(r'^(?P<budget_id>[0-9]+)/incomes/$', views.incomes_view, name='incomes'),
+    re_path(r'^(?P<budget_id>[0-9]+)/incomes/$', views.incomes_view, name='incomes'),
     url(r'^create-budget/$', views.create_budget, name='create_budget'),
     url(r'^(?P<budget_id>[0-9]+)/edit-budget/$', views.edit_budget, name='edit_budget'),
     url(r'^(?P<budget_id>[0-9]+)/delete-budget/$', views.delete_budget, name='delete_budget'),

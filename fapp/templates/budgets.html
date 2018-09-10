@@ -307,7 +307,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">{{ budget.name }}</a>
+                                        <a class="text-fiord-blue" href="{% url 'incomes' budget.id %}">{{ budget.name }}</a>
                                     </h5>
                                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income Kshs.
                                             {{ budget.total_income }}</span></p> <br />
