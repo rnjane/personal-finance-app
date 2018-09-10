@@ -147,7 +147,7 @@
                     <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
                         <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
                             <div class="d-table m-auto">
-                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="static/images/shards-dashboards-logo.svg"
+                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{% static "images/shards-dashboards-logo.svg" %}"
                                     alt="Shards Dashboard">
                                 <span class="d-none d-md-inline ml-1">Manager App</span>
                             </div>
@@ -252,7 +252,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="static/images/avatars/0.jpg" alt="User Avatar">
+                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg" alt="User Avatar"> %}"
                                     <span class="d-none d-md-inline-block">User Name</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
