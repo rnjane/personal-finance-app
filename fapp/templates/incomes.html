@@ -377,7 +377,7 @@
                 var budget_id = button.data('budgetid')
                 var income_id = button.data('id')
                 var modal = $(this)
-                modal.find('.modal-title').text('Remove Income ' + budget)
+                modal.find('.modal-title').text('Delete Income ' + budget)
                 var dellink = "/" + budget_id + "/income/" + income_id + "/delete-income/"
                 $("#removelink").attr("href", dellink)
             })

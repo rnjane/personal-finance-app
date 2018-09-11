@@ -63,9 +63,7 @@ class ExpenseController(ListView):
 
     def edit_expense(request, budget_id, expense_id, expense_new_name, expense_new_amount):
         expense = ExpenseModel.objects.filter(pk = expense_id)
-        expense.name = expense_new_name
-        expense.amount = expense_new_amount
-        expense.save()
+        expense.update(name=expense_new_name, amount=expense_new_amount)
         expenses = ExpenseModel.objects.filter(budget_id = budget_id)
         return(expenses)
 
@@ -90,9 +88,7 @@ class MiniExpenseController(ListView):
 
     def edit_mini_expense(request, expense_id, mini_expense_id, new_mini_expense_name, new_mini_expense_amount):
         mini_expense = MiniExpenseModel.objects.filter(pk = mini_expense_id)
-        mini_expense.name = new_mini_expense_name
-        mini_expense.amount = new_mini_expense_amount
-        mini_expense.save()
+        mini_expense.update(name=new_mini_expense_name, amount=new_mini_expense_amount)
         mini_expenses = MiniExpenseModel.objects.filter(expense_id = expense_id)
         return(mini_expenses)
 

@@ -98,8 +98,9 @@ def delete_income(request, budget_id, income_id):
 def create_expense(request, budget_id):
     if is_authenticated(request):
         form = ExpenseForm(request.POST or None)
-        ExpenseController.create_expense(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
-        return redirect('expenses')
+        if form.is_valid():
+            ExpenseController().create_expense(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+            return redirect('view_expenses', budget_id=budget_id)
 
 def view_all_expenses(request, budget_id):
     if is_authenticated(request):
@@ -110,34 +111,35 @@ def view_all_expenses(request, budget_id):
 def edit_expense(request, budget_id, expense_id):
     if is_authenticated(request):
         form = ExpenseForm(request.POST or None)
-        ExpenseController.edit_expense(budget_id, expense_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
-        return redirect('expenses')
+        if form.is_valid():
+            ExpenseController().edit_expense(budget_id, expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+            return redirect('view_expenses', budget_id=budget_id)
 
 def delete_expense(request, budget_id, expense_id):
     if is_authenticated(request):
-        ExpenseController.delete_expense(budget_id, expense_id)
-        return redirect('expenses')
+        ExpenseController().delete_expense(budget_id, expense_id)
+        return redirect('view_expenses', budget_id=budget_id)
 
 def create_mini_expense(request, expense_id):
     if is_authenticated(request):
         form = MiniExpenseForm(request.POST or None)
-        MiniExpenseController.create_mini_expense(expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        MiniExpenseController().create_mini_expense(expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
         return redirect('mini-expenses')
 
 def view_all_mini_expenses(request, expense_id):
     if is_authenticated(request):
-        mini_expenses = MiniExpenseController.view_all_mini_expense(expense_id)
+        mini_expenses = MiniExpenseController().view_all_mini_expense(expense_id)
         expense = get_object_or_404(ExpenseModel, pk=expense_id)
         return render(request, 'mini-expenses.html', {'mini-expenses': mini_expenses, 'expense': expense})
 
 def edit_mini_expense(request, expense_id, mini_expense_id):
     if is_authenticated(request):
         form = MiniExpenseForm(request.POST or None)
-        MiniExpenseController.edit_mini_expense(expense_id, mini_expense_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
+        MiniExpenseController().edit_mini_expense(expense_id, mini_expense_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
         return redirect('mini-expenses')
 
 def delete_mini_expense(request, expense_id,  mini_expense_id):
     if is_authenticated(request):
-        MiniExpenseController.delete_mini_expense(expense_id, mini_expense_id)
+        MiniExpenseController().delete_mini_expense(expense_id, mini_expense_id)
         return redirect('mini-expenses')
 
