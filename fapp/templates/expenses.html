@@ -311,7 +311,7 @@
                     <!-- Page Header -->
                     <div class="page-header row no-gutters py-4">
                         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                            <h3 class="page-title">Expenses</h3>
+                            <h3 class="page-title">{{ budget.name }} expenses</h3>
                         </div>
                     </div>
                     <!-- End Page Header -->
@@ -322,12 +322,12 @@
                                 <div class="card-post__image" style="background-image: url({% static 'images/content-management/1.jpeg' %} );">
                                     <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
                                     <div class="card-post__author d-flex">
-                                        <a href="https://google.com" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
+                                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">{{ expense.name }}</a>
+                                        <a class="text-fiord-blue" href="{% url 'view_mini_expenses' expense.id %}">{{ expense.name }}</a>
                                     </h5>
                                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
                                             {{ expense.amount }}</span></p> <br />

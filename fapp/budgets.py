@@ -75,14 +75,14 @@ class ExpenseController(ListView):
 
 
 class MiniExpenseController(ListView):
-    def view_all_mini_expense(request, mini_expense_id):
-        mini_expenses = MiniExpenseModel.objects.filter(pk=mini_expense_id)
+    def view_all_mini_expense(request, expense_id):
+        mini_expenses = MiniExpenseModel.objects.filter(expense_id=expense_id)
         return(mini_expenses)
 
     def create_mini_expense(request, expense_id, mini_expense_name, mini_expense_amount):
         mini_expense = MiniExpenseModel(expense_id = expense_id, name = mini_expense_name, amount = mini_expense_amount)
         mini_expense.save()
-        mini_expenses = MiniExpenseModel.objects.query(expense_id = expense_id)
+        mini_expenses = MiniExpenseModel.objects.filter(expense_id = expense_id)
         return(mini_expenses)
 
 
