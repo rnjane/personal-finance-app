@@ -39,9 +39,7 @@ class IncomeController(ListView):
 
     def edit_income(request, budget_id, income_id, income_new_name, income_new_amount):
         income = IncomeModel.objects.filter(pk=income_id)
-        income.name = income_new_name
-        income.amount = income_new_amount
-        income.save()
+        income.update(name=income_new_name, amount=income_new_amount)
         incomes = IncomeModel.objects.filter(budget_id = budget_id)
         return(incomes)
 

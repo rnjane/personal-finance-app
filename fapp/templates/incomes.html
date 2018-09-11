@@ -18,7 +18,7 @@
 </head>
 
 <body class="h-100">
-    <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
+    <div class="modal fade" role="dialog" tabindex="-1" id="newincome">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -28,7 +28,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
+                    <form method="POST" role="form" action="{% url 'create_income' budget.id %}" id="newincome">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-6">
@@ -46,7 +46,19 @@
                                                 <i class="fa fa-user-o"></i>
                                             </span>
                                         </div>
-                                        <input class="form-control" type="text" name="name" required="" placeholder="Budget Name" id="from-name">
+                                        <input class="form-control" type="text" name="name" required="" placeholder="Income Name" id="from-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="from-name">Amount</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="number" name="amount" step="1" required="" placeholder="Income Amount" id="from-amount">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -70,7 +82,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
+    <div class="modal fade" role="dialog" tabindex="-1" id="editincome" aria-labelledby="editincome">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,10 +96,30 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <input class="form-control" id="id" readonly type="hidden">
+                        </div>                       
+                        <div class="form-group">
+                            <label for="from-name">New Name</label>
+                            <span class="required-input">*</span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-user-o"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" type="text" name="name" required="" id="name">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="name">Income Name</label>
-                            <input class="form-control" id="name" name="name">
+                            <label for="from-name">New Amount</label>
+                            <span class="required-input">*</span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-user-o"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" name="amount" id="amount">
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="form-row">
@@ -181,13 +213,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="add-new-post.html">
+                            <a class="nav-link " href="{% url 'view_incomes' budget.id %}">
                                 <i class="material-icons">attach_money</i>
                                 <span>Incomes</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="form-components.html">
+                            <a class="nav-link " href="{% url 'view_expenses' budget.id %}">
                                 <i class="material-icons">access_time</i>
                                 <span>Expenses</span>
                             </a>
@@ -256,7 +288,7 @@
                                     <span class="d-none d-md-inline-block">User Name</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#newbudget">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#newincome">
                                         <i class="material-icons">note_add</i>New Income</a>
                                     <a class="dropdown-item" href="user-profile-lite.html">
                                         <i class="material-icons">&#xE7FD;</i> Profile</a>
@@ -284,35 +316,25 @@
                     </div>
                     <!-- End Page Header -->
                     <div class="row">
-                        {% if budgets%} {% for budget in budgets %}
+                        {% if incomes %} {% for income in incomes %}
                         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                             <div class="card card-small card-post card-post--1">
-                                <div class="card-post__image" style="background-image: url('static/images/content-management/1.jpeg');">
+                                <div class="card-post__image" style="background-image: url({% static 'images/content-management/1.jpeg' %});">
                                     <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
                                     <div class="card-post__author d-flex">
-                                        <a href="https://google.com" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');"></a>
+                                        <a href="https://google.com" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <a class="text-fiord-blue" href="#">{{ budget.name }}</a>
+                                        <a class="text-fiord-blue" href="#">{{ income.name }}</a>
                                     </h5>
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income Kshs.
-                                            {{ budget.total_income }}</span></p> <br />
-                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses Kshs.
-                                            {{ budget.total_expenses }}</span></p>
-                                    <div class="progress-wrapper">
-                                        <strong class="text-muted d-block mb-2">Remaining</strong>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: 74%;">
-                                                <span class="progress-value">74%</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
+                                        {{ income.amount }}</span></p> <br />
                                     <p>
                                         <div>
-                                            <button data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ budget.id }}" data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                            <button data-toggle="modal" data-target="#editincome" data-id="{{ income.id }}" data-amount="{{ income.amount }}" data-item="{{ income.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ income.id }}" data-item="{{ income.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
                                         </div>
                                     </p>
                                 </div>
@@ -352,22 +374,26 @@
             $('#deletebudget').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget)
                 var budget = button.data('item')
-                var budget_id = button.data('id')
+                var budget_id = button.data('budgetid')
+                var income_id = button.data('id')
                 var modal = $(this)
-                modal.find('.modal-title').text('Remove Budget ' + budget)
-                var dellink = budget_id + "/delete-budget"
+                modal.find('.modal-title').text('Remove Income ' + budget)
+                var dellink = "/" + budget_id + "/income/" + income_id + "/delete-income/"
                 $("#removelink").attr("href", dellink)
             })
         </script>
         <script>
-            $('#editbudget').on('show.bs.modal', function (event) {
+            $('#editincome').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget)
                 var name = button.data('item')
-                var budget_id = button.data('id')
+                var amount = button.data('amount')
+                var income_id = button.data('id')
+                var budget_id = button.data('budgetid')
                 var modal = $(this)
-                modal.find('.modal-title').text('Edit Budget ' + name)
+                modal.find('.modal-title').text('Edit Income ' + name)
                 modal.find('.modal-body #name').val(name)
-                var editlink = budget_id + "/edit-budget/"
+                modal.find('.modal-body #amount').val(amount)
+                var editlink = "/" + budget_id + "/income/" + income_id + "/edit-income/"
                 $("#editform").attr("action", editlink)
             })
         </script>

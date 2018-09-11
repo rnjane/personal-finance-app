@@ -181,13 +181,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="add-new-post.html">
+                            <a class="nav-link " href="{% url 'view_incomes' budget.id %}">
                                 <i class="material-icons">attach_money</i>
                                 <span>Incomes</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="form-components.html">
+                            <a class="nav-link " href="{% url 'view_expenses' budget.id %}">
                                 <i class="material-icons">access_time</i>
                                 <span>Expenses</span>
                             </a>

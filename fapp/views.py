@@ -67,31 +67,33 @@ def create_income(request, budget_id):
     else:
         form = IncomeForm(request.POST or None)
         if form.is_valid():
-            IncomeController.create_income(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
-            return redirect('incomes')
+            IncomeController().create_income(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+            return redirect('view_incomes', budget_id=budget_id)
+
 
 def view_all_incomes(request, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        incomes = IncomeController.view_all_incomes(budget_id)
+        incomes = IncomeController().view_all_incomes(budget_id=budget_id)
         budget = get_object_or_404(BudgetModel, pk=budget_id)
         return render(request, 'incomes.html', {'incomes': incomes, 'budget': budget})
 
-def edit_income(request, budget_id, income_id):
+def edit_income(request, income_id, budget_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
         form = IncomeForm(request.POST or None)
-        IncomeController.edit_income(budget_id, income_id, form.cleaned_data['newname'], form.cleaned_data['newamount'])
-        return redirect('incomes')
+        if form.is_valid():
+            IncomeController().edit_income(budget_id, income_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+            return redirect('view_incomes', budget_id=budget_id)
 
 def delete_income(request, budget_id, income_id):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        IncomeController.delete_income(budget_id, income_id)
-        return redirect('incomes')
+        IncomeController().delete_income(budget_id, income_id)
+        return redirect('view_incomes', budget_id=budget_id)
 
 def create_expense(request, budget_id):
     if is_authenticated(request):
@@ -101,7 +103,7 @@ def create_expense(request, budget_id):
 
 def view_all_expenses(request, budget_id):
     if is_authenticated(request):
-        expenses = ExpenseController.view_all_expenses(budget_id)
+        expenses = ExpenseController().view_all_expenses(budget_id)
         budget = get_object_or_404(BudgetModel, pk=budget_id)
         return render(request, 'expenses.html', {'expenses': expenses, 'budget': budget})
 
