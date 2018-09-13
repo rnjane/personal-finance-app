@@ -25,7 +25,7 @@ SECRET_KEY = 'y4%w65qj=+#9ho(^gb$52&_!5eyvw7=j&5-2@4-8!)hk(v7it^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 # Application definition
@@ -79,12 +79,19 @@ WSGI_APPLICATION = 'finance.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'financeapp',
-        'HOST': 'localhost',
-        'USER': 'robertnjane',
-        'PASSWORD': 'roba1234',
+        'NAME': 'postgres',
+        'HOST': 'db',
+        'USER': 'postgres',
         'PORT': '5432'
     }
+# 'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'financeapp',
+#         'HOST': 'localhost',
+#         'USER': 'robertnjane',
+#         'PASSWORD': 'roba1234',
+#         'PORT': '5432'
+#     }
 }
 
 
