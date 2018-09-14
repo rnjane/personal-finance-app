@@ -77,21 +77,22 @@ WSGI_APPLICATION = 'finance.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'postgres',
-    #     'HOST': 'db',
-    #     'USER': 'postgres',
-    #     'PORT': '5432'
-    # }
-'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'financeapp',
-        'HOST': 'localhost',
-        'USER': 'robertnjane',
-        'PASSWORD': 'roba1234',
-        'PORT': '5432'
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_IP'),
+        'PORT': '5432',
     }
+# 'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'financeapp',
+#         'HOST': 'localhost',
+#         'USER': 'robertnjane',
+#         'PASSWORD': 'roba1234',
+#         'PORT': '5432'
+#     }
 }
 
 

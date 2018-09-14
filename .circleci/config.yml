@@ -6,7 +6,7 @@ jobs:
       - image: circleci/postgres
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_DB: finance-database
     working_directory: ~/finance
 
     steps:
@@ -24,11 +24,11 @@ jobs:
             pip install -r ./requirements.txt
             python ./manage.py makemigrations fapp
             python ./manage.py migrate
-            cd finance && python manage.py test
+            python ./manage.py test
 
   application-deployment:
     docker:
-      - image: circleci/python:3.6-jessie-browsers
+      - image: circleci/python:3
     steps:
       - checkout
       - run: bash .circleci/deploy.sh
