@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3
+      - image: circleci/postgres
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+    working_directory: ~/finance
+
+    steps:
+      - checkout
+      - run:
+          name: run tests
+          environment:
+            POSTGRES_IP: 127.0.0.1
+            PGUSER: postgres
+            DATABASE_NAME: finance-database
+            USER: postgres
+          command: |
+            virtualenv --python=python3 finance-venv
+            source finance-venv/bin/activate
+            pip install -r ./requirements.txt
+            python ./manage.py makemigrations fapp
+            python ./manage.py migrate
+            cd finance && python manage.py test
+
+  application-deployment:
+    docker:
+      - image: circleci/python:3.6-jessie-browsers
+    steps:
+      - checkout
+      - run: bash .circleci/deploy.sh
+
+workflows:
+  version: 2
+  deploy-application:
+    jobs:
+      - test
+      - application-deployment:
+          requires:
+            - test
