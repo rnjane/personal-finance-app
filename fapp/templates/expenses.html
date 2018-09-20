@@ -330,12 +330,20 @@
                                         <a class="text-fiord-blue" href="{% url 'view_mini_expenses' expense.id %}">{{ expense.name }}</a>
                                     </h5>
                                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                                            {{ expense.amount }}</span></p> <br />
-                                    <p>
-                                        <div>
-                                            <button data-toggle="modal" data-target="#editexpense" data-id="{{ expense.id }}" data-amount="{{ expense.amount }}" data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button data-toggle="modal" data-target="#deleteexpense" data-id="{{ expense.id }}" data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                        {{ expense.amount }}</span></p>
+                                    <div class="progress-wrapper">
+                                            <strong class="text-muted d-block mb-2">Remaining</strong>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" style="width: {{ expense.rem_amount|floatformat:2 }}%;">
+                                                    <span class="progress-value">{{ expense.rem_amount|floatformat:2 }} %</span>
+                                                </div>
+                                            </div>
                                         </div>
+                                    <p>
+                                    <div>
+                                        <button data-toggle="modal" data-target="#editexpense" data-id="{{ expense.id }}" data-amount="{{ expense.amount }}" data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button data-toggle="modal" data-target="#deleteexpense" data-id="{{ expense.id }}" data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                    </div>
                                     </p>
                                 </div>
                             </div>

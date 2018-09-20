@@ -59,6 +59,9 @@ class IncomeController(ListView):
 class ExpenseController(ListView):
     def view_all_expenses(request, budget_id):
         expenses = ExpenseModel.objects.filter(budget_id = budget_id)
+        for expense in expenses:
+            remaining_amount = MiniExpenseModel.objects.filter(expense_id=expense.id).aggregate(Sum('amount'))['amount__sum']
+            expense.remaining_amount = remaining_amount
         return(expenses)
 
     def create_expense(request, budget_id, expense_name, expense_amount):

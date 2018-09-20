@@ -32,6 +32,11 @@ class ExpenseModel(models.Model):
     def __str__(self):
         return self.name
 
+    def rem_amount(self):
+        if self.remaining_amount == None:
+            return 100
+        return self.remaining_amount
+
     class Meta:
         ordering = ['date_created']
 
