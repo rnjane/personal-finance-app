@@ -13,6 +13,11 @@ class BudgetModel(models.Model):
     def __str__(self):
         return self.name
 
+    def remaining_amount(self):
+        if self.total_expenses == None:
+            return 100
+        return (self.total_expenses / self.total_income) * 100
+
     class Meta:
         ordering = ['date_created']
 
