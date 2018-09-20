@@ -1,9 +1,15 @@
 from django.views.generic import ListView
+from django.db.models import Sum
 from .models import BudgetModel, IncomeModel, ExpenseModel, MiniExpenseModel
 
 class Budget(ListView):
     def index(request):
         budgets = BudgetModel.objects.filter(user=request.user)
+        for budget in budgets:
+            total_income = IncomeModel.objects.filter(budget_id=budget.id).aggregate(Sum('amount'))['amount__sum']
+            total_expenses = ExpenseModel.objects.filter(budget_id=budget.id).aggregate(Sum('amount'))['amount__sum']
+            budget.total_income = total_income
+            budget.total_expenses = total_expenses
         return(budgets)
 
     def create_budget_controller(request, name):
