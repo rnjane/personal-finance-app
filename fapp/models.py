@@ -16,7 +16,7 @@ class BudgetModel(models.Model):
     def remaining_amount(self):
         if self.total_expenses == None:
             return 100
-        return (self.total_expenses / self.total_income) * 100
+        return ((self.total_income - self.total_expenses) / self.total_income) * 100
 
     class Meta:
         ordering = ['date_created']
