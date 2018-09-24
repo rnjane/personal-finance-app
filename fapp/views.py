@@ -145,3 +145,6 @@ def delete_mini_expense(request, expense_id,  mini_expense_id):
         MiniExpenseController().delete_mini_expense(expense_id, mini_expense_id)
         return redirect('view_mini_expenses', expense_id=expense_id)
 
+def dashboard(request):
+    if is_authenticated:
+        return render(request, 'budgets-dashboard.html')

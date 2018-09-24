@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^(?P<expense_id>[0-9]+)/mini-expenses/$', views.view_all_mini_expenses, name='view_mini_expenses'),
     url(r'^(?P<expense_id>[0-9]+)/mini-expense/(?P<mini_expense_id>[0-9]+)/edit-mini-expense/$', views.edit_mini_expense, name='edit_mini_expense'),
     url(r'^(?P<expense_id>[0-9]+)/mini-expense/(?P<mini_expense_id>[0-9]+)/delete-mini-expense/$', views.delete_mini_expense, name='delete_mini_expense'),
+
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
 ]
