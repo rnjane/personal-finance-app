@@ -29,6 +29,9 @@ def index(request):
     if not request.user.is_authenticated:
         return redirect('login')
     budgets = Budget.index(request)
+    query = request.GET.get('q')
+    if query:
+        budgets = budgets.filter(name__icontains=query)
     return render(request, 'budgets.html', {'budgets': budgets})
 
 def create_budget(request):

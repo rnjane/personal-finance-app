@@ -14,8 +14,10 @@ class BudgetModel(models.Model):
         return self.name
 
     def remaining_amount(self):
-        if self.total_expenses == None:
+        if self.total_expenses == None or self.total_expenses == 0.0:
             return 100
+        if self.total_income == None or self.total_income == 0.0:
+            return 0
         return ((self.total_income - self.total_expenses) / self.total_income) * 100
 
     class Meta:

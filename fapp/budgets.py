@@ -8,8 +8,14 @@ class Budget(ListView):
         for budget in budgets:
             total_income = IncomeModel.objects.filter(budget_id=budget.id).aggregate(Sum('amount'))['amount__sum']
             total_expenses = ExpenseModel.objects.filter(budget_id=budget.id).aggregate(Sum('amount'))['amount__sum']
-            budget.total_income = total_income
-            budget.total_expenses = total_expenses
+            if total_income is None:
+                budget.total_income = 0.00
+            else:
+                budget.total_income = total_income
+            if total_expenses is None:
+                budget.total_expenses = 0.00
+            else:
+                budget.total_expenses = total_expenses
         return(budgets)
 
     def create_budget_controller(request, name):
