@@ -79,6 +79,9 @@ def view_all_incomes(request, budget_id):
         return redirect('login')
     else:
         incomes = IncomeController().view_all_incomes(budget_id=budget_id)
+        query = request.GET.get('q')
+        if query:
+            incomes = incomes.filter(name__icontains=query)
         budget = get_object_or_404(BudgetModel, pk=budget_id)
         return render(request, 'incomes.html', {'incomes': incomes, 'budget': budget})
 
@@ -108,6 +111,8 @@ def create_expense(request, budget_id):
 def view_all_expenses(request, budget_id):
     if is_authenticated(request):
         expenses = ExpenseController().view_all_expenses(budget_id)
+        if query:
+            expenses = expenses.filter(name__icontains=query)
         budget = get_object_or_404(BudgetModel, pk=budget_id)
         return render(request, 'expenses.html', {'expenses': expenses, 'budget': budget})
 
@@ -133,6 +138,8 @@ def create_mini_expense(request, expense_id):
 def view_all_mini_expenses(request, expense_id):
     if is_authenticated(request):
         mini_expenses = MiniExpenseController().view_all_mini_expense(expense_id)
+        if query:
+            mini_expenses = mini_expenses.filter(name__icontains=query)
         expense = get_object_or_404(ExpenseModel, pk=expense_id)
         return render(request, 'mini-expenses.html', {'mini_expenses': mini_expenses, 'expense': expense, 'budget': expense.budget})
 
