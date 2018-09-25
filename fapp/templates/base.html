@@ -18,127 +18,6 @@
 </head>
 
 <body class="h-100">
-    <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">New Budget</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div id="successfail"></div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-12" id="message">
-                                <div class="form-group">
-                                    <label for="from-name">Name</label>
-                                    <span class="required-input">*</span>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-user-o"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" type="text" name="name" required="" placeholder="Budget Name" id="from-name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <button class="btn btn-primary btn-block" type="reset">
-                                                <i class="fa fa-undo"></i> Reset</button>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-primary btn-block" type="submit">Submit
-                                                <i class="fa fa-chevron-circle-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="d-flex d-md-none" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Budget</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="#" method="POST" id="editform">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <input class="form-control" id="id" readonly type="hidden">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Budget Name</label>
-                            <input class="form-control" id="name" name="name">
-                        </div>
-                        <div class="form-group">
-                            <div class="form-row">
-                                <div class="col">
-                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
-                                        <i class="fa fa-edit"></i>Close</button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-primary btn-block" type="submit">Edit
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <h5>Are you sure to remove this budget?</h5>
-                    </div>
-                    <input class="form-control" id="amount" readonly type="hidden" />
-                    <div class="form-group">
-                            <div class="form-row">
-                                <div class="col">
-                                    <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
-                                        <i class="fa fa-edit"></i>Close</button>
-                                </div>
-                                <div class="col">
-                                    <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid">
         <div class="row">
             {% block sidebar %}{% endblock %}
@@ -153,12 +32,14 @@
                                         <i class="fas fa-search"></i>
                                     </div>
                                 </div>
-                                <input class="navbar-search form-control" type="text" name="q" placeholder="Search for something..." aria-label="Search">                                </div>
+                                <input class="navbar-search form-control" type="text" name="q" placeholder="Search for something..."
+                                    aria-label="Search">
+                            </div>
                         </form>
                         <ul class="navbar-nav border-left flex-row ">
                             <li class="nav-item border-right dropdown notifications">
-                                <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <div class="nav-link-icon__wrapper">
                                         <i class="material-icons">&#xE7F4;</i>
                                         <span class="badge badge-pill badge-danger">2</span>
@@ -174,7 +55,8 @@
                                         <div class="notification__content">
                                             <span class="notification__category">Budgets</span>
                                             <p>Your budget utilization was
-                                                <span class="text-success text-semibold">28%</span> in the last week. Great
+                                                <span class="text-success text-semibold">28%</span> in the last week.
+                                                Great
                                                 job!
                                             </p>
                                         </div>
@@ -188,17 +70,20 @@
                                         <div class="notification__content">
                                             <span class="notification__category">Time</span>
                                             <p>Last week your met
-                                                <span class="text-danger text-semibold">20%</span> of your time goals. It
+                                                <span class="text-danger text-semibold">20%</span> of your time goals.
+                                                It
                                                 could have been worse!</p>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item notification__all text-center" href="#"> View all Notifications
+                                    <a class="dropdown-item notification__all text-center" href="#"> View all
+                                        Notifications
                                     </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg" %}" alt="User Avatar">
+                                <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#"
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg"%}" alt="User Avatar">
                                     <span class="d-none d-md-inline-block">{{ user.username }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
@@ -213,8 +98,8 @@
                             </li>
                         </ul>
                         <nav class="nav">
-                            <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse"
-                                data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+                            <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
+                                data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
                                 <i class="material-icons">&#xE5D2;</i>
                             </a>
                         </nav>
@@ -252,28 +137,109 @@
     <script src="{% static 'scripts/shards-dashboards.1.0.0.min.js' %}"></script>
     <script src="{% static 'scripts/app/app-blog-overview.1.0.0.js' %}"></script>
     <script>
-            $('#deletebudget').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget)
-                var budget = button.data('item')
-                var budget_id = button.data('id')
-                var modal = $(this)
-                modal.find('.modal-title').text('Remove Budget ' + budget)
-                var dellink = budget_id + "/delete-budget"
-                $("#removelink").attr("href", dellink)
-            })
-        </script>
-        <script>
-            $('#editbudget').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget)
-                var name = button.data('item')
-                var budget_id = button.data('id')
-                var modal = $(this)
-                modal.find('.modal-title').text('Edit Budget ' + name)
-                modal.find('.modal-body #name').val(name)
-                var editlink = budget_id + "/edit-budget/"
-                $("#editform").attr("action", editlink)
-            })
-        </script>
+        $('#deletebudget').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var budget = button.data('item')
+            var budget_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Remove Budget ' + budget)
+            var dellink = budget_id + "/delete-budget"
+            $("#removelink").attr("href", dellink)
+        })
+    </script>
+    <script>
+        $('#editbudget').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('item')
+            var budget_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Edit Budget ' + name)
+            modal.find('.modal-body #name').val(name)
+            var editlink = budget_id + "/edit-budget/"
+            $("#editform").attr("action", editlink)
+        })
+    </script>
+    <script>
+        $('#deleteminiexpense').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var mini_expense = button.data('item')
+            var expense_id = button.data('expenseid')
+            var mini_expense_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Delete mini expense ' + mini_expense)
+            var dellink = "/" + expense_id + "/mini-expense/" + mini_expense_id + "/delete-mini-expense/"
+            $("#removelink").attr("href", dellink)
+        })
+    </script>
+    <script>
+        $('#editminiexpense').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('item')
+            var expense_id = button.data('expenseid')
+            var mini_expense_id = button.data('id')
+            var amount = button.data('amount')
+            var modal = $(this)
+            modal.find('.modal-title').text('Edit mini-expense ' + name)
+            modal.find('.modal-body #name').val(name)
+            modal.find('.modal-body #amount').val(amount)
+            var editlink = "/" + expense_id + "/mini-expense/" + mini_expense_id + "/edit-mini-expense/"
+            $("#editform").attr("action", editlink)
+        })
+    </script>
+    <script>
+        $('#deletebudget').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var budget = button.data('item')
+            var budget_id = button.data('budgetid')
+            var income_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Delete Income ' + budget)
+            var dellink = "/" + budget_id + "/income/" + income_id + "/delete-income/"
+            $("#removelink").attr("href", dellink)
+        })
+    </script>
+    <script>
+        $('#editincome').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('item')
+            var amount = button.data('amount')
+            var income_id = button.data('id')
+            var budget_id = button.data('budgetid')
+            var modal = $(this)
+            modal.find('.modal-title').text('Edit Income ' + name)
+            modal.find('.modal-body #name').val(name)
+            modal.find('.modal-body #amount').val(amount)
+            var editlink = "/" + budget_id + "/income/" + income_id + "/edit-income/"
+            $("#editform").attr("action", editlink)
+        })
+    </script>
+    <script>
+        $('#deleteexpense').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var budget = button.data('item')
+            var budget_id = button.data('budgetid')
+            var expense_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Delete expense ' + budget)
+            var dellink = "/" + budget_id + "/expense/" + expense_id + "/delete_expense/"
+            $("#removelink").attr("href", dellink)
+        })
+    </script>
+    <script>
+        $('#editexpense').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('item')
+            var budget_id = button.data('budgetid')
+            var expense_id = button.data('id')
+            var amount = button.data('amount')
+            var modal = $(this)
+            modal.find('.modal-title').text('Edit Expense ' + name)
+            modal.find('.modal-body #name').val(name)
+            modal.find('.modal-body #amount').val(amount)
+            var editlink = "/" + budget_id + "/expense/" + expense_id + "/edit_expense/"
+            $("#editform").attr("action", editlink)
+        })
+    </script>
 </body>
 
 </html>

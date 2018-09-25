@@ -30,32 +30,32 @@
     </form>
     <div class="nav-wrapper">
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link " href="index.html">
-                    <i class="material-icons">dashboard</i>
-                    <span>Incomes Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="components-blog-posts.html">
-                    <i class="material-icons">dashboard</i>
-                    <span>Expenses Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="{% url 'view_incomes' budget.id %}">
-                    <i class="material-icons">attach_money</i>
-                    <span>Incomes</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'view_expenses' budget.id %}">
-                    <i class="material-icons">access_time</i>
-                    <span>Expenses</span>
-                </a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link " href="index.html">
+              <i class="material-icons">dashboard</i>
+              <span>Mini Expenses Dashboard</span>
+            </a>
+          </li>             
+          <li class="nav-item">
+            <a class="nav-link active" href="add-new-post.html">
+              <i class="material-icons">money_off</i>
+              <span>Mini Expenses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'view_expenses' budget.id %}">
+              <i class="material-icons">mobile_friendly</i>
+              <span>Expenses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="user-profile-lite.html">
+              <i class="material-icons">person</i>
+              <span>My Profile</span>
+            </a>
+          </li>
         </ul>
-    </div>
+      </div>
 </aside>
 {% endblock %}
 {% block content %}
@@ -257,4 +257,6 @@
 </div>
 </div>
 </div>
+
+
 {% endblock content %}

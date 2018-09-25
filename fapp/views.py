@@ -134,7 +134,7 @@ def view_all_mini_expenses(request, expense_id):
     if is_authenticated(request):
         mini_expenses = MiniExpenseController().view_all_mini_expense(expense_id)
         expense = get_object_or_404(ExpenseModel, pk=expense_id)
-        return render(request, 'mini-expenses.html', {'mini_expenses': mini_expenses, 'expense': expense})
+        return render(request, 'mini-expenses.html', {'mini_expenses': mini_expenses, 'expense': expense, 'budget': expense.budget})
 
 def edit_mini_expense(request, expense_id, mini_expense_id):
     if is_authenticated(request):
