@@ -83,7 +83,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#"
                                     role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg"%}" alt="User Avatar">
+                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg" %}" alt="User Avatar">
                                     <span class="d-none d-md-inline-block">{{ user.username }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
@@ -136,6 +136,66 @@
     <script src="{% static 'scripts/extras.1.0.0.min.js' %}"></script>
     <script src="{% static 'scripts/shards-dashboards.1.0.0.min.js' %}"></script>
     <script src="{% static 'scripts/app/app-blog-overview.1.0.0.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script>
+        var endpoint = '/api/chart/data/'
+        var defaultData = []
+        var defaultData2 = []
+        var labels = [];
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                labels = data.incomes.labels
+                defaultData = data.incomes.default
+                defaultData2 = data.expenses.default
+                setChart()
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+        function setChart() {
+            var ctx = document.getElementById("myChart");    
+            const generateColors = (color, num) => {
+                const colors = [];
+                for(let i = 0; i < num; i++) {
+                    colors.push(color);
+                }
+                return colors;
+            }        
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Expenses',
+                        data: defaultData2,                      
+                        backgroundColor: generateColors('rgba(255, 0, 0, 0.4)', 12),
+                        borderColor: generateColors('rgba(255, 0, 0, 0.4)', 12),
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'incomes',
+                        data: defaultData,
+                        backgroundColor: generateColors('rgba(0, 0, 255, 0.3)', 12),
+                        borderColor: generateColors('rgba(0, 0, 255, 0.3)', 12),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
     <script>
         $('#deletebudget').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)

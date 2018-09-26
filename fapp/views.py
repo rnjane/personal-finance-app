@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, BudgetForm, IncomeForm, ExpenseForm, MiniExpenseForm
 from .budgets import Budget, IncomeController, ExpenseController, MiniExpenseController
-from .models import BudgetModel, ExpenseModel
+from .models import BudgetModel, ExpenseModel, User
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 def is_authenticated(request):
@@ -111,6 +113,7 @@ def create_expense(request, budget_id):
 def view_all_expenses(request, budget_id):
     if is_authenticated(request):
         expenses = ExpenseController().view_all_expenses(budget_id)
+        query = request.GET.get('q')
         if query:
             expenses = expenses.filter(name__icontains=query)
         budget = get_object_or_404(BudgetModel, pk=budget_id)
@@ -138,6 +141,7 @@ def create_mini_expense(request, expense_id):
 def view_all_mini_expenses(request, expense_id):
     if is_authenticated(request):
         mini_expenses = MiniExpenseController().view_all_mini_expense(expense_id)
+        query = request.GET.get('q')
         if query:
             mini_expenses = mini_expenses.filter(name__icontains=query)
         expense = get_object_or_404(ExpenseModel, pk=expense_id)
@@ -158,3 +162,35 @@ def delete_mini_expense(request, expense_id,  mini_expense_id):
 def dashboard(request):
     if is_authenticated:
         return render(request, 'budgets-dashboard.html')
+
+
+class ChartData(APIView):
+    def get(self, request, format=None):
+        labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        budgets = Budget.index(request)
+        incomes = []
+        expenses = []
+        months = []
+        for budget in budgets:
+            incomes.append(budget.total_income)
+            expenses.append(budget.total_expenses)
+            months.append(budget.date_created.strftime("%b"))
+        d = {}
+        mons = set(labels) & set(months)
+        
+        for label in labels:
+            if label in mons:
+                d[label] = 12
+            else:
+                d[label] = 6
+        data1 = {
+                "labels": labels,
+                "default": list(d.values()),
+        }
+        data2 = {
+                "default": list(d.values()),
+        }
+        data = {'incomes': data1, 'expenses': data2}
+        print('-----------------')
+        print(d)
+        return Response(data)

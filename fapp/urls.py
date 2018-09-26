@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^(?P<expense_id>[0-9]+)/mini-expense/(?P<mini_expense_id>[0-9]+)/delete-mini-expense/$', views.delete_mini_expense, name='delete_mini_expense'),
 
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^api/chart/data/$', views.ChartData.as_view()),
 ]
