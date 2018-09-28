@@ -171,26 +171,40 @@ class ChartData(APIView):
         incomes = []
         expenses = []
         months = []
+        tincome = 0
+        texpense = 0
+        month_income_expense = {}
         for budget in budgets:
             incomes.append(budget.total_income)
             expenses.append(budget.total_expenses)
             months.append(budget.date_created.strftime("%b"))
-        d = {}
+            if budget.date_created.strftime("%b") in months:
+                tincome += budget.total_income
+                texpense += budget.total_expenses
+                month_income_expense[budget.date_created.strftime("%b")] = [tincome, texpense]
+            else:
+                month_income_expense[budget.date_created.strftime("%b")] = [budget.total_income, budget.total_expenses]
+        av_incomes = {}
+        av_expenses = {}
+        
         mons = set(labels) & set(months)
         
         for label in labels:
             if label in mons:
-                d[label] = 12
+                av_incomes[label] = month_income_expense[label][0]
+                av_expenses[label] = month_income_expense[label][1]
             else:
-                d[label] = 6
+                av_incomes[label] = 0
+                av_expenses[label] = 0
         data1 = {
                 "labels": labels,
-                "default": list(d.values()),
+                "default": list(av_incomes.values()),
         }
+        
         data2 = {
-                "default": list(d.values()),
+                "default": list(av_expenses.values()),
         }
         data = {'incomes': data1, 'expenses': data2}
-        print('-----------------')
-        print(d)
         return Response(data)
+
+         
