@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}Budgets Page{% endblock %}
 {% block addlink %}#newincome{% endblock %}
 {% block add %}New Income{% endblock %}
@@ -77,14 +78,13 @@
         <div class="card-body p-0 d-flex">
           <div class="d-flex flex-column m-auto">
             <div class="stats-small__data text-center">
-              <span class="stats-small__label text-uppercase">Posts</span>
-              <h6 class="stats-small__value count my-3">2,390</h6>
+              <span class="stats-small__label text-uppercase">All time incomes</span>
+              <h6 class="stats-small__value count my-3">Kshs. {{ incomes|intcomma }}</h6>
             </div>
             <div class="stats-small__data">
               <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
             </div>
           </div>
-          <canvas height="120" class="blog-overview-stats-small-1"></canvas>
         </div>
       </div>
     </div>
@@ -93,14 +93,13 @@
         <div class="card-body p-0 d-flex">
           <div class="d-flex flex-column m-auto">
             <div class="stats-small__data text-center">
-              <span class="stats-small__label text-uppercase">Pages</span>
-              <h6 class="stats-small__value count my-3">182</h6>
+              <span class="stats-small__label text-uppercase">All time expenses</span>
+              <h6 class="stats-small__value count my-3">Kshs. {{ expenses|intcomma }}</h6>
             </div>
             <div class="stats-small__data">
               <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
             </div>
           </div>
-          <canvas height="120" class="blog-overview-stats-small-2"></canvas>
         </div>
       </div>
     </div>
@@ -111,7 +110,7 @@
     <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
       <div class="card card-small">
         <div class="card-header border-bottom">
-          <h6 class="m-0">Income/Expenses</h6>
+          <h6 class="m-0">Income/Expenses - This year</h6>
         </div>
         <div class="card-body pt-0">
           <div class="row border-bottom py-2 bg-light">
@@ -137,7 +136,7 @@
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
       <div class="card card-small h-100">
         <div class="card-header border-bottom">
-          <h6 class="m-0">Expenses Usage</h6>
+          <h6 class="m-0">Expenses Usage - Last month</h6>
         </div>
         <div class="card-body d-flex py-0">
           <canvas height="220" class="blog-users-by-device m-auto" id="expensesPieChart"></canvas>

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}Budgets Page{% endblock %}
 {% block addlink %}#newincome{% endblock %}
 {% block add %}New Income{% endblock %}
@@ -227,7 +228,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
             <div class="card card-small card-post card-post--1">
                 <div class="card-post__image" style="background-image: url({% static 'images/content-management/1.jpeg' %});">
-                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
+                    <a href="#" class="card-post__category badge badge-pill badge-dark">{{ income.date_created }}</a>
                     <div class="card-post__author d-flex">
                         <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
                     </div>
@@ -237,7 +238,7 @@
                         <a class="text-fiord-blue" href="#">{{ income.name }}</a>
                     </h5>
                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                            {{ income.amount }}</span></p> <br />
+                            {{ income.amount|intcomma }}</span></p> <br />
                     <p>
                         <div>
                             <button data-toggle="modal" data-target="#editincome" data-id="{{ income.id }}" data-amount="{{ income.amount }}"

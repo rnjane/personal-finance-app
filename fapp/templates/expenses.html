@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}Budgets Page{% endblock %}
 {% block addlink %}#newexpense{% endblock %}
 {% block add %}New Expense{% endblock %}
@@ -227,7 +228,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
             <div class="card card-small card-post card-post--1">
                 <div class="card-post__image" style="background-image: url({% static 'images/content-management/1.jpeg' %} );">
-                    <a href="#" class="card-post__category badge badge-pill badge-dark">6th SEP 2018</a>
+                    <a href="#" class="card-post__category badge badge-pill badge-dark">{{ expense.date_created }}</a>
                     <div class="card-post__author d-flex">
                         <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
                     </div>
@@ -237,7 +238,7 @@
                         <a class="text-fiord-blue" href="{% url 'view_mini_expenses' expense.id %}">{{ expense.name }}</a>
                     </h5>
                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
-                            {{ expense.amount }}</span></p>
+                            {{ expense.amount|intcomma }}</span></p>
                     <div class="progress-wrapper">
                         <strong class="text-muted d-block mb-2">Remaining</strong>
                         <div class="progress progress-sm">

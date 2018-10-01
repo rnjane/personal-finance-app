@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}Budgets Page{% endblock %}
 {% block addlink %}#newbudget{% endblock %}
 {% block add %}New Budget{% endblock %}
@@ -208,10 +209,10 @@
                     </h5>
                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income
                             Kshs.
-                            {{ budget.total_income }}</span></p> <br />
+                            {{ budget.total_income|intcomma }}</span></p> <br />
                     <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses
                             Kshs.
-                            {{ budget.total_expenses }}</span></p>
+                            {{ budget.total_expenses|intcomma }}</span></p>
                     <div class="progress-wrapper">
                         <strong class="text-muted d-block mb-2">Remaining</strong>
                         <div class="progress progress-sm">

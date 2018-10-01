@@ -162,7 +162,14 @@ def delete_mini_expense(request, expense_id,  mini_expense_id):
 
 def dashboard(request):
     if is_authenticated:
-        return render(request, 'budgets-dashboard.html')
+        all_expenses = 0
+        all_incomes = 0
+        budgets = Budget.index(request)
+        for budget in budgets:
+            '''Return total incomes and expenses for all the budgets'''
+            all_expenses += budget.total_expenses
+            all_incomes += budget.total_income
+        return render(request, 'budgets-dashboard.html', {'expenses': all_expenses, 'incomes': all_incomes})
 
 
 class ChartData(APIView):
@@ -228,3 +235,4 @@ class PieData(APIView):
             'values': list(expense_vals.values()),
         }
         return Response(data)
+        
