@@ -1,24 +1,14 @@
 version: '3'
 
 services:
+  db:
+    image: postgres
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    container_name: finance-app
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/finance-app
+      - .:/code
     ports:
       - "8000:8000"
-
-  nginx:
-    build:
-      context: .
-      dockerfile: nginx/Dockerfile
-    container_name: nginx-server
-    depends_on: 
-      - web
-    command: nginx -g 'daemon off;'
-    ports:
-      - "80:80"
-    volumes:
-      - ./static:/var/www/static
+    depends_on:
+      - db

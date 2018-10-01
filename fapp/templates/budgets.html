@@ -1,223 +1,242 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F-APP - Budgets</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-</head>
-
-<body>
-    <div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">New Budget</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+{% load humanize %}
+{% block title %}Budgets Page{% endblock %}
+{% block addlink %}#newbudget{% endblock %}
+{% block add %}New Budget{% endblock %}
+{% block sidebar %}
+<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+    <div class="main-navbar">
+        <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+            <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                <div class="d-table m-auto">
+                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{% static "images/shards-dashboards-logo.svg" %}"
+                        alt="Shards Dashboard">
+                    <span class="d-none d-md-inline ml-1">Manager App</span>
                 </div>
-                <div class="modal-body">
-                    <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div id="successfail"></div>
-                            </div>
+            </a>
+            <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                <i class="material-icons">&#xE5C4;</i>
+            </a>
+        </nav>
+    </div>
+    <div class="nav-wrapper">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>Budgets Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>Time Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'index'%}">
+                    <i class="material-icons">attach_money</i>
+                    <span>Budgets</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="form-components.html">
+                    <i class="material-icons">access_time</i>
+                    <span>Time</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html">
+                    <i class="material-icons">mobile_friendly</i>
+                    <span>Mobile Apps</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="user-profile-lite.html">
+                    <i class="material-icons">person</i>
+                    <span>My Profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+{% endblock %}
+{% block content %}
+<div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Budget</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div id="successfail"></div>
                         </div>
-                        <div class="form-row">
-                            <div class="col-12" id="message">
-                                <div class="form-group">
-                                    <label for="from-name">Name</label>
-                                    <span class="required-input">*</span>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-user-o"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" type="text" name="name" required="" placeholder="Budget Name" id="from-name">
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" id="message">
+                            <div class="form-group">
+                                <label for="from-name">Name</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
                                     </div>
+                                    <input class="form-control" type="text" name="name" required="" placeholder="Budget Name"
+                                        id="from-name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="from-amount">Amount</label>
-                                    <span class="required-input">*</span>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-envelope-o"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" type="number" name="amount" required="" placeholder="Budget Amount" id="from-amount">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <button class="btn btn-primary btn-block" type="reset">
-                                                <i class="fa fa-undo"></i> Reset</button>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-primary btn-block" type="submit">Submit
-                                                <i class="fa fa-chevron-circle-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="d-flex d-md-none">
                             </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="reset">
+                                            <i class="fa fa-undo"></i> Reset</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="submit">Submit
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-flex d-md-none" />
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Budget</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="#" method="POST" id="editform">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <input class="form-control" id="id" readonly type="hidden">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Budget Name</label>
-                            <input class="form-control" id="name" name="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Budget Amount</label>
-                            <input class="form-control" id="amount" name="amount">
-                        </div>                         
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
-                        </div>
-                    </form>
-                </div>
+</div>
+<div class="modal fade" role="diaendblocklog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Budget</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+            <div class="modal-body">
+                <form action="#" method="POST" id="editform">
+                    {% csrf_token %}
                     <div class="form-group">
-                        <h5>Are you sure to remove this budget?</h5>
+                        <input class="form-control" id="id" readonly type="hidden">
                     </div>
-                    <input class="form-control" id="amount" readonly type="hidden" />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        <a class="btn btn-primary" href="#" id="removelink">Remove</a>
+                    <div class="form-group">
+                        <label for="name">Budget Name</label>
+                        <input class="form-control" id="name" name="name">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                    <i class="fa fa-edit"></i>Close</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="submit">Edit
+                                    <i class="fa fa-chevron-circle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container">
-            <a class="navbar-brand logo" href="{% url 'index' %}">F-App</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#newbudget" style="background-color:rgb(34,139,34);">New Budget</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="{% url 'logout' %}">LogOut</a>
-                    </li>
-                </ul>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-        </div>
-    </nav>
-    <main class="page projets-page">
-        <section class="portfolio-block project-no-images" style="padding-top:50px;padding-bottom:50px;">
-            <div class="container">
-                <div class="heading">
-                    <h2>My Budgets</h2>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h5>Are you sure to remove this budget?</h5>
                 </div>
-                <div class="row">
-                    {% if budgets%} {% for budget in budgets %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card-no-image">
-                            <a href="{% url 'budget' budget.id %}"><h3>{{ budget.name }}</h3></a>
-                            <h4>{{ budget.amount }}</h4>
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}" data-item="{{ budget.name }}">&nbsp;Edit&nbsp;</a>&nbsp;&nbsp;
-                            <a class="btn btn-outline-primary btn-sm" role="button" href="#" data-toggle="modal" data-target="#deletebudget" data-item="{{ budget.id }}">Delete</a>
-                            <div class="tags"></div>
+                <input class="form-control" id="amount" readonly type="hidden" />
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                <i class="fa fa-edit"></i>Close</button>
                         </div>
-                    </div>               
-                    {% endfor %} {% endif %}
+                        <div class="col">
+                            <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
-    <footer class="page-footer" style="position: absolute;width: 100%;bottom: 0;">
-        <div class="container">
-            <div class="links">
-                <a href="#">About Us</a>
-                <a href="#">Contact Us</a>
-                <a href="#"></a>
-            </div>
-            <div class="social-icons">
-                <a href="#">
-                    <i class="icon ion-social-facebook"></i>
-                </a>
-                <a href="#">
-                    <i class="icon ion-social-instagram-outline"></i>
-                </a>
-                <a href="#">
-                    <i class="icon ion-social-twitter"></i>
-                </a>
+
             </div>
         </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static '/js/script.min.js' %}"></script>
+    </div>
+</div>
+<div class="main-content-container container-fluid px-4">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">Budgets</h3>
+        </div>
+    </div>
+    <!-- End Page Header -->
+    <div class="row">
+        {% if budgets%} {% for budget in budgets %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card card-small card-post card-post--1">
+                <div class="card-post__image" style="background-image: url('static/images/content-management/13.jpeg');">
+                    <a href="#" class="card-post__category badge badge-pill badge-dark">{{ budget.date_created }}</a>
+                    <div class="card-post__author d-flex">
+                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');"></a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="text-fiord-blue" href="{% url 'view_incomes' budget.id %}">{{ budget.name }}</a>
+                    </h5>
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Income
+                            Kshs.
+                            {{ budget.total_income|intcomma }}</span></p> <br />
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses
+                            Kshs.
+                            {{ budget.total_expenses|intcomma }}</span></p>
+                    <div class="progress-wrapper">
+                        <strong class="text-muted d-block mb-2">Remaining</strong>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="74" aria-valuemin="0"
+                                aria-valuemax="100" style="width: {{ budget.remaining_amount|floatformat:2 }}%;">
+                                <span class="progress-value">{{ budget.remaining_amount|floatformat:2 }} %</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        <div>
+                            <button data-toggle="modal" data-target="#editbudget" data-id="{{ budget.id }}" data-amount="{{ budget.amount }}"
+                                data-item="{{ budget.name }}" class="btn btn-outline-primary btn-sm" type="button"
+                                style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ budget.id }}" data-item="{{ budget.name }}"
+                                class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block"
+                                align="right">Delete</button>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
+</div>
 
-    <script>
-		$('#deletebudget').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget)
-			var budget = button.data('item')
-			var modal = $(this)
-			modal.find('.modal-title').text('Remove Budget ' + budget)
-            var dellink = budget + "/delete-budget"
-            $("#removelink").attr("href", dellink)
-		})
-    </script>
-    <script>
-		$('#editbudget').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget)
-			var name = button.data('item')
-            var amount = button.data('amount')
-            var id = button.data('id')
-			var modal = $(this)
-			modal.find('.modal-title').text('Edit Budget ' + name)
-			modal.find('.modal-body #amount').val(amount)
-            modal.find('.modal-body #name').val(name)
-            var editlink = id + "/edit-budget/"
-            $("#editform").attr("action", editlink)
-		})
-	</script>
-</body>
-</html>
+{% endblock content %}
