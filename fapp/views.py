@@ -5,6 +5,7 @@ from .budgets import Budget, IncomeController, ExpenseController, MiniExpenseCon
 from .models import BudgetModel, ExpenseModel, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import datetime
 
 
 def is_authenticated(request):
@@ -208,3 +209,22 @@ class ChartData(APIView):
         return Response(data)
 
          
+class PieData(APIView):
+    def get(self, request):
+        budgets = Budget.index(request)
+        now = datetime.datetime.now()
+        expense_vals = {}
+        last_month = (now.month-1 if now.month > 1 else 12)
+        for budget in budgets:
+            if budget.date_created.strftime("%b") == ("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()[last_month-1]):
+                expenses = ExpenseController.view_all_expenses(request, budget.id)
+                for expense in expenses:
+                    if expense.name in expense_vals:
+                        expense_vals[expense.name] += expense.amount
+                    else:
+                        expense_vals[expense.name] = expense.amount
+        data = {
+            'labels': list(expense_vals.keys()),
+            'values': list(expense_vals.values()),
+        }
+        return Response(data)

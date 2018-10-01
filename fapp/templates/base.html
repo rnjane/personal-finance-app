@@ -196,6 +196,46 @@
             });
         }
     </script>
+
+    <script>
+        var endpoint = '/api/pie/data/'
+        var values = []
+        var labels = [];
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                labels = data.labels
+                values = data.values
+                setPieChart()
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+
+        function setPieChart() {
+            var ctx = document.getElementById("expensesPieChart");       
+            const myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Usage by expenses',
+                        data: values,                      
+                        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Usage by expenses'
+                    }
+                    }
+            });
+        }
+    </script>
     <script>
         $('#deletebudget').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)

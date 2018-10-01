@@ -29,4 +29,5 @@ urlpatterns = [
 
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^api/chart/data/$', views.ChartData.as_view()),
+    url(r'^api/pie/data/$', views.PieData.as_view())
 ]
