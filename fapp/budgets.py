@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from .models import BudgetModel, IncomeModel, ExpenseModel, MiniExpenseModel
 
 class Budget(ListView):
@@ -32,7 +33,7 @@ class Budget(ListView):
         return(budgets)
 
     def delete_budget_controller(request, budget_id):
-        budget = BudgetModel.objects.get(pk=budget_id)
+        budget = get_object_or_404(BudgetModel, pk=budget_id)
         budget.delete()
         budgets = BudgetModel.objects.filter(user=request.user)
         return(budgets)

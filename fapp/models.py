@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from decimal import Decimal
 
 class BudgetModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='budgets', on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     total_income = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'))
     total_expenses = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'))
@@ -25,7 +25,7 @@ class BudgetModel(models.Model):
 
 
 class ExpenseModel(models.Model):
-    budget = models.ForeignKey(BudgetModel, on_delete = models.CASCADE)
+    budget = models.ForeignKey(BudgetModel, related_name='expenses', on_delete = models.CASCADE)
     name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'))
     remaining_amount = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'))
@@ -44,7 +44,7 @@ class ExpenseModel(models.Model):
 
 
 class IncomeModel(models.Model):
-    budget = models.ForeignKey(BudgetModel, on_delete = models.CASCADE)
+    budget = models.ForeignKey(BudgetModel, related_name='incomes', on_delete = models.CASCADE)
     name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=20, decimal_places=2, default=Decimal('0.00'))
     date_created = models.DateTimeField(auto_now_add = True)
@@ -57,7 +57,7 @@ class IncomeModel(models.Model):
 
 
 class MiniExpenseModel(models.Model):
-    expense = models.ForeignKey(ExpenseModel, on_delete = models.CASCADE)
+    expense = models.ForeignKey(ExpenseModel, related_name='miniexpenses', on_delete = models.CASCADE)
     name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     date_created = models.DateTimeField(auto_now_add = True)
