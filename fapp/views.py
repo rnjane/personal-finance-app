@@ -6,6 +6,7 @@ from .models import BudgetModel, ExpenseModel, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import datetime
+import decimal
 
 
 def is_authenticated(request):
@@ -26,7 +27,7 @@ def register(request):
             return redirect('index')
     else:
         form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+        return render(request, 'register.html', {'form': form})
 
 def index(request):
     if not request.user.is_authenticated:
@@ -162,13 +163,13 @@ def delete_mini_expense(request, expense_id,  mini_expense_id):
 
 def dashboard(request):
     if is_authenticated:
-        all_expenses = 0
-        all_incomes = 0
+        all_expenses = decimal.Decimal(0.0)
+        all_incomes = decimal.Decimal(0.0)
         budgets = Budget.index(request)
         for budget in budgets:
             '''Return total incomes and expenses for all the budgets'''
-            all_expenses += budget.total_expenses
-            all_incomes += budget.total_income
+            all_expenses += decimal.Decimal(budget.total_expenses)
+            all_incomes += decimal.Decimal(budget.total_income)
         return render(request, 'budgets-dashboard.html', {'expenses': all_expenses, 'incomes': all_incomes})
 
 

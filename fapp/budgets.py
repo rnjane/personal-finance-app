@@ -26,11 +26,12 @@ class Budget(ListView):
         return(budgets)
 
     def edit_budget_controller(request, budget_id, new_name):
-        budget = BudgetModel.objects.get(pk=budget_id)
+        budget = get_object_or_404(BudgetModel, pk=budget_id)
         budget.name = new_name
         budget.save()
         budgets = BudgetModel.objects.filter(user=request.user)
         return(budgets)
+
 
     def delete_budget_controller(request, budget_id):
         budget = get_object_or_404(BudgetModel, pk=budget_id)
