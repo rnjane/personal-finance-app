@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from model_mommy import mommy
-from fapp.models import BudgetModel
+from fapp.models import BudgetModel, IncomeModel
 
 
 class UsersTests(TestCase):
@@ -11,7 +11,7 @@ class UsersTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-class BudgetsViewTestCase(TestCase):
+class BudgetsTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = reverse('index')
@@ -55,3 +55,44 @@ class BudgetsViewTestCase(TestCase):
         budgets = self.client.get(self.url)
         new_name = budgets.context['budgets'][0].name
         self.assertEqual(new_name, 'newname')
+
+
+class IncomesTestCases(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = mommy.make(User)
+        self.client.force_login(self.user)
+        self.budget = mommy.make(BudgetModel, user=self.user)
+        budget = self.client.get(reverse('index'))
+        self.budgetid = budget.context['budgets'][0].id
+        self.url = reverse('view_incomes', kwargs={'budget_id': self.budgetid})
+        self.incomes = mommy.make(IncomeModel, budget=self.budget, _quantity=10)
+    
+    def test_user_can_view_all_incomes(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(len(self.incomes), len(response.context['incomes']))
+
+    def test_user_can_create_an_income(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse('create_income', kwargs={'budget_id': self.budgetid}), {'name': 'income1', 'amount': 1200})
+        response = self.client.get(self.url)
+        self.assertEqual(11, len(response.context['incomes']))
+
+    def test_user_can_edit_an_income(self):
+        self.client.force_login(self.user)
+        incomes = self.client.get(self.url)
+        incomeid = incomes.context['incomes'][0].id
+        self.client.post(reverse('edit_income', kwargs={'budget_id': self.budgetid, 'income_id': incomeid}), {'name': 'income2', 'amount': 2400})
+        incomes = self.client.get(self.url)
+        new_amount = incomes.context['incomes'][0].amount
+        self.assertEqual(2400, new_amount)
+
+    def test_user_can_delete_an_income(self):
+        self.client.force_login(self.user)
+        incomes = self.client.get(self.url)
+        # import pdb; pdb.set_trace()
+        incomeid = incomes.context['incomes'][0].id
+        self.client.delete(reverse('delete_income', kwargs={'budget_id': self.budgetid, 'income_id': incomeid}))
+        incomes = self.client.get(self.url)
+        self.assertEqual(9, len(incomes.context['incomes']))
