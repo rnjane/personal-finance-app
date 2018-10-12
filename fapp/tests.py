@@ -134,3 +134,36 @@ class ExpenseTestCases(TestCase):
         expenseid = expenses.context['expenses'][0].id
         self.client.post(reverse('delete_expense', kwargs={'budget_id': self.budgetid, 'expense_id': expenseid}))
         self.assertEqual(9, len(self.client.get(self.url).context['expenses']))
+
+
+class MiniExpenseTestCases(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = mommy.make(User)
+        self.client.force_login(self.user)
+        budget = mommy.make(BudgetModel, user=self.user)
+        self.expense = mommy.make(ExpenseModel, budget = budget)
+        self.url = reverse('view_mini_expenses', kwargs={'expense_id': self.expense.id})
+        self.mini_expenses = mommy.make(MiniExpenseModel, expense = self.expense, _quantity=10)
+
+    def test_user_can_view_all_mini_expenses(self):
+        self.client.force_login(self.user)
+        mini_expenses = self.client.get(self.url)
+        self.assertEqual(10, len(mini_expenses.context['mini_expenses']))
+
+    def test_user_can_create_a_mini_expense(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse('create_mini_expense', kwargs={'expense_id': self.expense.id}), {'name': 'newminiexpense', 'amount': 1200})
+        response = self.client.get(self.url)
+        self.assertEqual(11, len(response.context['mini_expenses']))
+
+    def test_user_can_edit_a_mini_expense(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse('edit_mini_expense', kwargs={'expense_id': self.expense.id, 'mini_expense_id': self.mini_expenses[0].id}), {'name': 'neweditedname', 'amount':1230})
+        newname = self.client.get(self.url).context['mini_expenses'][0].name
+        self.assertEqual('neweditedname', newname)
+
+    def test_user_can_delete_a_mini_expense(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse('delete_mini_expense', kwargs={'expense_id': self.expense.id, 'mini_expense_id': self.mini_expenses[0].id}))
+        self.assertEqual(9, len(self.client.get(self.url).context['mini_expenses']))
