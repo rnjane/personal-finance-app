@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from model_mommy import mommy
-from fapp.models import BudgetModel, IncomeModel
+from fapp.models import BudgetModel, IncomeModel, ExpenseModel, MiniExpenseModel
 
 
 class UsersTests(TestCase):
@@ -96,3 +96,41 @@ class IncomesTestCases(TestCase):
         self.client.delete(reverse('delete_income', kwargs={'budget_id': self.budgetid, 'income_id': incomeid}))
         incomes = self.client.get(self.url)
         self.assertEqual(9, len(incomes.context['incomes']))
+
+
+class ExpenseTestCases(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = mommy.make(User)
+        self.client.force_login(self.user)
+        self.budget = mommy.make(BudgetModel, user=self.user)
+        budget = self.client.get(reverse('index'))
+        self.budgetid = budget.context['budgets'][0].id
+        self.url = reverse('view_expenses', kwargs={'budget_id': self.budgetid})
+        self.expenses = mommy.make(ExpenseModel, budget=self.budget, _quantity=10)
+
+    def test_user_can_view_all_expenses(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('view_expenses', kwargs={'budget_id': self.budgetid}))
+        self.assertEqual(10, len(response.context['expenses']))
+
+    def test_user_can_create_an_expense(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse('create_expense', kwargs={'budget_id': self.budgetid}), {'name': 'name', 'amount': 2300})
+        response = self.client.get(self.url)
+        self.assertEqual(11, len(response.context['expenses']))
+
+    def test_user_can_edit_an_expense(self):
+        self.client.force_login(self.user)
+        expenses = self.client.get(self.url)
+        expenseid = expenses.context['expenses'][0].id
+        self.client.post(reverse('edit_expense', kwargs={'budget_id': self.budgetid, 'expense_id': expenseid}), {'name': 'editedname', 'amount': 1200})
+        edited_name = self.client.get(self.url).context['expenses'][0].name
+        self.assertEqual('editedname', edited_name)
+
+    def test_user_can_delete_an_expense(self):
+        self.client.force_login(self.user)
+        expenses = self.client.get(self.url)
+        expenseid = expenses.context['expenses'][0].id
+        self.client.post(reverse('delete_expense', kwargs={'budget_id': self.budgetid, 'expense_id': expenseid}))
+        self.assertEqual(9, len(self.client.get(self.url).context['expenses']))
