@@ -87,7 +87,7 @@ class IncomesTestCases(TestCase):
         incomes = self.client.get(self.url)
         new_amount = incomes.context['incomes'][0].amount
         self.assertEqual(2400, new_amount)
-
+ 
     def test_user_can_delete_an_income(self):
         self.client.force_login(self.user)
         incomes = self.client.get(self.url)
